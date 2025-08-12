@@ -198,7 +198,7 @@ export default function HomePage() {
   });
 
   return (
-    <main className="flex min-h-screen w-full p-6 gap-6 bg-gray-50">
+    <main className="flex h-screen w-full p-6 gap-6 bg-gray-50">
       {/* Birthday list */}
       <Card className="flex flex-col w-1/2 shadow-lg">
         <CardHeader className="space-y-2">
@@ -275,7 +275,7 @@ export default function HomePage() {
       </Card>
 
       {/* Employee table */}
-      <Card className="flex flex-col w-1/2 shadow-lg h-[75vh]">
+      <Card className="flex flex-col w-1/2 shadow-lg h-full">
         <CardHeader className="space-y-2">
           <CardTitle>Employee List</CardTitle>
           <CardDescription>
