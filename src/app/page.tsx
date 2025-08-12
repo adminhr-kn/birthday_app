@@ -32,6 +32,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+
 type Employee = {
   id: number;
   firstName: string;
@@ -166,6 +177,7 @@ export default function HomePage() {
   const [employees, setEmployees] = useState<Employee[]>(sampleEmployees);
   const [search, setSearch] = useState("");
   const [months, setMonths] = useState(1);
+  const { setTheme } = useTheme()
 
   const filteredEmployees = employees.filter((emp) =>
     ` ${emp.id} ${emp.firstName} ${emp.lastName} ${emp.location} ${emp.birthDate}`
@@ -198,7 +210,27 @@ export default function HomePage() {
   });
 
   return (
-    <main className="flex h-screen w-full p-6 gap-6 bg-gray-50">
+    <main className="flex h-screen w-full p-6 gap-6 bg-background text-foreground">
+		<DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
       {/* Birthday list */}
       <Card className="flex flex-col w-1/2 shadow-lg">
         <CardHeader className="space-y-2">
@@ -207,7 +239,7 @@ export default function HomePage() {
             Search an employee by Name, Surname, Location or Birthday
           </CardDescription>
 
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-muted-foreground">
             A list of people whose birthday is in the selected month
           </div>
 
@@ -254,18 +286,18 @@ export default function HomePage() {
                 return (
                   <li
                     key={emp.id}
-                    className="border rounded-lg p-3 bg-white shadow-sm"
+                    className="border rounded-lg p-3 bg-card shadow-sm"
                   >
                     <p className="font-semibold">
                       {emp.firstName} {emp.lastName}
                     </p>
-                    <p className="text-sm text-gray-500">{emp.location}</p>
+                    <p className="text-sm text-muted-foreground">{emp.location}</p>
                     <p className="text-sm">Birthday: {birthDateFormatted}</p>
                   </li>
                 );
               })
             ) : (
-              <li className="text-sm text-gray-500 italic">
+              <li className="text-sm text-muted-foreground italic">
                 No workers with such search conditions
               </li>
             )}
