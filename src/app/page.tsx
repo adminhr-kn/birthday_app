@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   Select,
@@ -9,18 +9,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
+  SelectGroup,
 } from "@/components/ui/select";
 
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -28,12 +27,10 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SelectGroup } from "@radix-ui/react-select";
 
 type Employee = {
   id: number;
@@ -168,10 +165,8 @@ const sampleEmployees: Employee[] = [
 export default function HomePage() {
   const [employees, setEmployees] = useState<Employee[]>(sampleEmployees);
   const [search, setSearch] = useState("");
-
   const [months, setMonths] = useState(1);
 
-  // filtering employees by search term, "search" changed in input
   const filteredEmployees = employees.filter((emp) =>
     ` ${emp.id} ${emp.firstName} ${emp.lastName} ${emp.location} ${emp.birthDate}`
       .toLowerCase()
@@ -203,120 +198,136 @@ export default function HomePage() {
   });
 
   return (
-    <main className="flex min-h-screen h-full w-full  ">
-      <div className="flex justify-center items-center h-full w-full">
-        <Card className="w-full min-h-screen overflow-hidden ">
-          <CardHeader>
-            <CardTitle>Birthday App</CardTitle>
-            <CardDescription>
-              Search an employee by Name, Surname, Location or Birthday
-            </CardDescription>
+    <main className="flex min-h-screen w-full p-6 gap-6 bg-gray-50">
+      {/* Birthday list */}
+      <Card className="flex flex-col w-1/2 shadow-lg">
+        <CardHeader className="space-y-2">
+          <CardTitle>Birthday App</CardTitle>
+          <CardDescription>
+            Search an employee by Name, Surname, Location or Birthday
+          </CardDescription>
 
-            <div>A list of people whoose birthday is in the next month</div>
+          <div className="text-sm text-gray-600">
+            A list of people whose birthday is in the selected month
+          </div>
 
-            <Select
-              defaultValue="1"
-              onValueChange={(value) => {
-                console.log("Chosen:", value, "=> as a number:", Number(value));
-                setMonths(Number(value));
-              }}
-            >
-              <SelectTrigger className="w-[400px]">
-                <SelectValue placeholder="Show users with birthdays in..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Months</SelectLabel>
-                  <SelectItem value="1">In 1 month (default)</SelectItem>
-                  <SelectItem value="2">In 2 months</SelectItem>
-                  <SelectItem value="3">In 3 months</SelectItem>
-                  <SelectItem value="6">In 6 months</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </CardHeader>
-          <CardContent>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col gap-6"
-            >
-              <div className="grid gap-2">
-                <Label htmlFor="search">
-                  Name, Surname, location, BirthDay
-                </Label>
-                <Input
-                  id="search"
-                  type="text"
-                  placeholder="Write to search..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-            </form>
+          <Select
+            defaultValue="1"
+            onValueChange={(value) => {
+              console.log("Chosen:", value, "=> as a number:", Number(value));
+              setMonths(Number(value));
+            }}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Show users with birthdays in..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Months</SelectLabel>
+                <SelectItem value="1">In 1 month (default)</SelectItem>
+                <SelectItem value="2">In 2 months</SelectItem>
+                <SelectItem value="3">In 3 months</SelectItem>
+                <SelectItem value="6">In 6 months</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </CardHeader>
 
-            <ul className="max-h-120 overflow-y-auto pr-1">
-              {filteredEmployees.length > 0 ? (
-                filteredEmployeesBirthDayLessThanMont.map((emp) => {
-                  const birthDateFormatted = new Date(
-                    emp.birthDate
-                  ).toLocaleDateString();
-                  return (
-                    <li key={emp.id} className="border rounded p-4">
-                      <p>
-                        <strong>
-                          {emp.firstName} {emp.lastName}
-                        </strong>{" "}
-                        - {emp.location}
-                      </p>
-                      <p>Birthday: {birthDateFormatted}</p>
-                    </li>
-                  );
-                })
-              ) : (
-                <li>No workers with such search conditions</li>
-              )}
-            </ul>
-          </CardContent>
-          <CardFooter>
-            {/* Możesz tu dodać przyciski jeśli chcesz */}
-          </CardFooter>
-        </Card>
+        <CardContent className="flex flex-col gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="search">Search</Label>
+            <Input
+              id="search"
+              type="text"
+              placeholder="Name, Surname, Location, Birthday..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
-        <Table>
-          <TableCaption>A list of employees.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">ID</TableHead>
-              <TableHead>First Name</TableHead>
-              <TableHead>Last Name</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead className="text-right">Birth Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+          <ul className="space-y-3 max-h-96 overflow-y-auto pr-2">
             {filteredEmployees.length > 0 ? (
-              filteredEmployees.map((emp) => {
+              filteredEmployeesBirthDayLessThanMont.map((emp) => {
+                const birthDateFormatted = new Date(
+                  emp.birthDate
+                ).toLocaleDateString();
                 return (
-                  <TableRow key={emp.id}>
-                    <TableCell className="font-medium">{emp.id}</TableCell>
-                    <TableCell>{emp.firstName}</TableCell>
-                    <TableCell>{emp.lastName}</TableCell>
-                    <TableCell>{emp.location}</TableCell>
-                    <TableCell className="text-right">
-                      {emp.birthDate}
-                    </TableCell>
-                  </TableRow>
+                  <li
+                    key={emp.id}
+                    className="border rounded-lg p-3 bg-white shadow-sm"
+                  >
+                    <p className="font-semibold">
+                      {emp.firstName} {emp.lastName}
+                    </p>
+                    <p className="text-sm text-gray-500">{emp.location}</p>
+                    <p className="text-sm">Birthday: {birthDateFormatted}</p>
+                  </li>
                 );
               })
             ) : (
-              // <div className=" flex text-center justify-center items-center w-full">
-              // 	No workers with such search conditions
-              // </div>
-              <></>
+              <li className="text-sm text-gray-500 italic">
+                No workers with such search conditions
+              </li>
             )}
-          </TableBody>
+          </ul>
+        </CardContent>
+        <CardFooter>{/* Możesz tu dodać przyciski jeśli chcesz */}</CardFooter>
+      </Card>
 
-          {/* employees.map((emp) => (
+      {/* Employee table */}
+      <Card className="flex flex-col w-1/2 shadow-lg h-[75vh]">
+        <CardHeader className="space-y-2">
+          <CardTitle>Employee List</CardTitle>
+          <CardDescription>
+            A list of employees with their details
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="flex-1 min-h-0 flex flex-col gap-4">
+          <div className="flex min-h-0 flex-1 flex-col">
+            {/* Fixed header */}
+            <Table className="table-fixed">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16">ID</TableHead>
+                  <TableHead className="w-40">First Name</TableHead>
+                  <TableHead className="w-40">Last Name</TableHead>
+                  <TableHead className="w-40">Location</TableHead>
+                  <TableHead className="w-32 text-right">Birth Date</TableHead>
+                </TableRow>
+              </TableHeader>
+            </Table>
+            {/* Scrollable body */}
+            <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]">
+              <Table className="table-fixed">
+                <TableBody>
+                  {filteredEmployees.length > 0 ? (
+                    filteredEmployees.map((emp) => {
+                      return (
+                        <TableRow key={emp.id}>
+                          <TableCell className="w-16 font-medium">
+                            {emp.id}
+                          </TableCell>
+                          <TableCell className="w-40">
+                            {emp.firstName}
+                          </TableCell>
+                          <TableCell className="w-40">{emp.lastName}</TableCell>
+                          <TableCell className="w-40">{emp.location}</TableCell>
+                          <TableCell className="w-32 text-right">
+                            {emp.birthDate}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  ) : (
+                    // <div className=" flex text-center justify-center items-center w-full">
+                    // 	No workers with such search conditions
+                    // </div>
+                    <></>
+                  )}
+                </TableBody>
+
+                {/* employees.map((emp) => (
 							<TableRow key={emp.id}>
 								<TableCell className="font-medium">{emp.id}</TableCell>
 								<TableCell>{emp.firstName}</TableCell>
@@ -327,8 +338,11 @@ export default function HomePage() {
 								</TableCell>
 							</TableRow>
 						)) */}
-        </Table>
-      </div>
+              </Table>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* <h1 className="flex justify-center items-center mt-[20px]">
 				Urodziny pracowników
