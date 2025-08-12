@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-html, body {
+/* html, body {
   background-color: #333 !important;
   height: 100%;
   margin: 0;
@@ -14,12 +14,12 @@ html, body {
 .bg-card {
   background-color: #333 !important;
   color: #fff !important;
-}
+} */
 
-
+/* 
 body {
   @apply bg-background text-foreground;
-}
+} */
 
 
 @theme inline {
@@ -131,11 +131,11 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
