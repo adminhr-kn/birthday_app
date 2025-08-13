@@ -29,6 +29,8 @@ export default function RootLayout({
   className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider
+        // attribute tells to save the theme in the class attribute (document.documentElement) which is <html> element!
+        // to powoduje ze zmiana w setterze zmienia kolor strony
           attribute="class"
           defaultTheme="system"
           enableSystem
