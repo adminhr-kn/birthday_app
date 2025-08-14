@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "employeeName": "Jan Kowalski",
+    "startDate": "2025-01-15",
+    "endDate": "2026-01-14",
+    "durationMonths": 12,
+    "location": "Warszawa, Polska"
+  },
+  {
+    "id": 2,
+    "employeeName": "Anna Nowak",
+    "startDate": "2025-03-01",
+    "endDate": "2025-08-31",
+    "durationMonths": 6,
+    "location": "Kraków, Polska"
+  },
+  {
+    "id": 3,
+    "employeeName": "Piotr Wiśniewski",
+    "startDate": "2024-12-10",
+    "endDate": "2025-03-09",
+    "durationMonths": 3,
+    "location": "Gdańsk, Polska"
+  },
+  {
+    "id": 4,
+    "employeeName": "Katarzyna Zielińska",
+    "startDate": "2025-05-20",
+    "endDate": "2026-05-19",
+    "durationMonths": 12,
+    "location": "Poznań, Polska"
+  },
+  {
+    "id": 5,
+    "employeeName": "Tomasz Lewandowski",
+    "startDate": "2025-07-01",
+    "endDate": "2025-09-30",
+    "durationMonths": 3,
+    "location": "Wrocław, Polska"
+  },
+  {
+    "id": 6,
+    "employeeName": "Magdalena Dąbrowska",
+    "startDate": "2025-02-05",
+    "endDate": "2026-02-04",
+    "durationMonths": 12,
+    "location": "Łódź, Polska"
+  },
+  {
+    "id": 7,
+    "employeeName": "Michał Szymański",
+    "startDate": "2025-04-15",
+    "endDate": "2025-10-14",
+    "durationMonths": 6,
+    "location": "Szczecin, Polska"
+  },
+  {
+    "id": 8,
+    "employeeName": "Aleksandra Kwiatkowska",
+    "startDate": "2025-06-10",
+    "endDate": "2026-06-09",
+    "durationMonths": 12,
+    "location": "Bydgoszcz, Polska"
+  },
+  {
+    "id": 9,
+    "employeeName": "Krzysztof Kamiński",
+    "startDate": "2025-08-01",
+    "endDate": null,
+    "durationMonths": null,
+    "location": "Katowice, Polska"
+  },
+  {
+    "id": 10,
+    "employeeName": "Ewa Wójcik",
+    "startDate": "2025-09-25",
+    "endDate": null,
+    "durationMonths": null,
+    "location": "Lublin, Polska"
+  }
+]
