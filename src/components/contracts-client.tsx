@@ -90,8 +90,9 @@ export default function Contracts_Page({
 
 	const [filters, setFilter] = useState<ContractFilter>({
 		name: "",
+		// the "to" date is exceptional
 		endDate: {
-			from: new Date()
+			from: new Date(),
 		},
 		monthDuration: 0,
 		location: "",
@@ -127,11 +128,16 @@ export default function Contracts_Page({
 	//     //const matchedNames= `${value.}`
 	// })
 
+	const [filteredConts, setFilteredConts] = useState(contracts);
+	// when our filters change we do a filtration
 	useEffect(() => {
-		const filteredConts = contract.filter(
+		const result = contract.filter(
 			(x) =>
+				// if name from filters is as the one from contract (we search every contract)
+				// if names match we go on and check next filter, if all are true we return the contract
+				// if something isnt right the 1 thing will return false and we wont have the contract in the filteredConts
 				(filters.name
-					? x.employeeName.toLowerCase() === filters.name.toLowerCase()
+					? x.employeeName.toLowerCase().includes(filters.name.toLowerCase())
 					: true) &&
 				(filters.location
 					? x.location.toLowerCase() === filters.location.toLowerCase()
@@ -143,7 +149,8 @@ export default function Contracts_Page({
 					? x.durationMonths === filters.monthDuration
 					: true)
 		);
-		console.log("Filtered Contracts:", filteredConts);
+		console.log("Filtered Contracts:", result);
+		setFilteredConts(result);
 	}, [filters]);
 
 	return (
@@ -174,32 +181,9 @@ export default function Contracts_Page({
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
-						Search an employee by Name, Surname, Location or Birthday
+						Search for a contract by an employee's name, surname, location, or
+						the contract's duration. You can also search by date
 					</CardDescription>
-
-					<div className="text-sm text-muted-foreground">
-						A list of people whose birthday is in the selected month
-					</div>
-
-					<Select
-						defaultValue="1"
-						onValueChange={(value) => {
-							console.log("Chosen:", value, "=> as a number:", Number(value));
-							setMonths(Number(value));
-						}}>
-						<SelectTrigger>
-							<SelectValue placeholder="Show users with birthdays in..." />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectLabel>Months</SelectLabel>
-								<SelectItem value="1">In 1 month (default)</SelectItem>
-								<SelectItem value="2">In 2 months</SelectItem>
-								<SelectItem value="3">In 3 months</SelectItem>
-								<SelectItem value="6">In 6 months</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select>
 
 					<div className="flex items-center gap-4 flex-wrap">
 						<div className="flex flex-col gap-2">
@@ -261,16 +245,18 @@ export default function Contracts_Page({
 													key={o.value}
 													value={o.value}
 													onSelect={(currentValue) => {
+														const temp1 = { ...filters };
 														// if the clicks the current value, set it to empty string
 														// so its not selected anymore
-														setValue(
-															currentValue === value ? "" : currentValue
-														);
 
-														const temp = filters;
-														temp["location"] = currentValue;
-														setFilter({ ...temp });
-														console.log(filters);
+														const newValue =
+															currentValue === value ? "" : currentValue;
+														setValue(newValue);
+
+														setFilter({
+															...temp1,
+															location: newValue,
+														});
 
 														// close the popover after selection
 														setOpen(false);
@@ -291,7 +277,7 @@ export default function Contracts_Page({
 							</Popover>
 						</div>
 
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-2 ml-[20px]">
 							<Label htmlFor="startDate">Start Date</Label>
 
 							{/* Once more open or not we have a date picker amd build in onOpenChange */}
@@ -345,6 +331,21 @@ export default function Contracts_Page({
 									/>
 								</PopoverContent>
 							</Popover>
+
+							
+							<Button
+								onClick={() => {
+									const filterData = { ...filters };
+									setFilter({
+										...filterData,
+										endDate: {
+											from: new Date(),
+										},
+									});
+									setDate(undefined);
+								}}>
+								Reset Date
+							</Button>
 						</div>
 
 						<div className="flex flex-col gap-2">
@@ -369,6 +370,106 @@ export default function Contracts_Page({
 						</div>
 					</div>
 				</CardHeader>
+
+				<CardContent className="flex flex-col gap-4">
+					<ul className="space-y-3 max-h-70 overflow-y-auto pr-2 ">
+						{filteredConts?.length > 0 ? (
+							filteredConts.map((contract) => {
+								const endDateFormatted = new Date(
+									contract.endDate
+								).toLocaleDateString();
+
+								return (
+									<li
+										key={contract.id}
+										className="border rounded-lg p-3 bg-card shadow-sm">
+										<p className="font-semibold">{contract.employeeName}</p>
+										<p className="text-sm text-muted-foreground">
+											{contract.location}
+										</p>
+										<p className="text-sm text-muted-foreground">
+											{endDateFormatted}
+										</p>
+										<p className="text-sm text-muted-foreground">
+											{contract.durationMonths} months
+										</p>
+									</li>
+								);
+							})
+						) : (
+							<li className="text-center font-semibold text-muted-foreground">
+								No contracts found
+							</li>
+						)}
+					</ul>
+				</CardContent>
+			</Card>
+
+			{/* Contracts list */}
+			<Card className="flex flex-col w-3/4 shadow-lg h-full">
+				<CardHeader className="space-y-2">
+					<CardTitle>Employee List</CardTitle>
+					<CardDescription>
+						A list of employees with their details
+					</CardDescription>
+				</CardHeader>
+
+				<CardContent className="flex-1 min-h-0 ">
+					<Table className="table-fixed w-full">
+						<TableHeader>
+							<TableRow>
+								<TableHead className="w-1/5 px-4 pl-1 py-3 text-left">
+									Employee Name
+								</TableHead>
+								<TableHead className="w-1/5 px-4 py-3 text-center">
+									Duration
+								</TableHead>
+								<TableHead className="w-1/5 px-4 py-3 text-center">
+									Start Date
+								</TableHead>
+								<TableHead className="w-1/5 px-4 py-3 text-center">
+									End Date
+								</TableHead>
+								<TableHead className="w-1/5 px-4 pr-1 py-3 text-right">
+									Location
+								</TableHead>
+							</TableRow>
+						</TableHeader>
+
+						<TableBody>
+							{filteredConts?.length > 0 ? (
+								filteredConts.map((contract) => {
+									const endDateFormatted = new Date(
+										contract.endDate
+									).toLocaleDateString();
+
+									return (
+										<TableRow key={contract.id}>
+											<TableCell>{contract.employeeName}</TableCell>
+											<TableCell className="text-center">
+												{contract.durationMonths}
+											</TableCell>
+
+											<TableCell className="text-center">
+												{new Date(contract.startDate).toLocaleDateString()}
+											</TableCell>
+
+											<TableCell className="text-center">
+												{new Date(contract.endDate).toLocaleDateString()}
+											</TableCell>
+
+											<TableCell className="text-right">
+												{contract.location}
+											</TableCell>
+										</TableRow>
+									);
+								})
+							) : (
+								<></>
+							)}
+						</TableBody>
+					</Table>
+				</CardContent>
 			</Card>
 		</main>
 	);
