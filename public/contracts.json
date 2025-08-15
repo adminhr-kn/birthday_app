@@ -5,7 +5,8 @@
     "startDate": "2025-01-15",
     "endDate": "2026-01-14",
     "durationMonths": 12,
-    "location": "Warszawa, Polska"
+    "location": "Warszawa, Polska",
+    "isLeader": false
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "startDate": "2025-03-01",
     "endDate": "2025-08-31",
     "durationMonths": 6,
-    "location": "Kraków, Polska"
+    "location": "Kraków, Polska",
+    "isLeader": false
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "startDate": "2024-12-10",
     "endDate": "2025-03-09",
     "durationMonths": 3,
-    "location": "Gdańsk, Polska"
+    "location": "Gdańsk, Polska",
+    "isLeader": false
   },
   {
     "id": 4,
@@ -29,7 +32,8 @@
     "startDate": "2025-05-20",
     "endDate": "2026-05-19",
     "durationMonths": 12,
-    "location": "Poznań, Polska"
+    "location": "Poznań, Polska",
+    "isLeader": false
   },
   {
     "id": 5,
@@ -37,7 +41,8 @@
     "startDate": "2025-07-01",
     "endDate": "2025-09-30",
     "durationMonths": 3,
-    "location": "Wrocław, Polska"
+    "location": "Wrocław, Polska",
+    "isLeader": false
   },
   {
     "id": 6,
@@ -45,7 +50,8 @@
     "startDate": "2025-02-05",
     "endDate": "2026-02-04",
     "durationMonths": 12,
-    "location": "Łódź, Polska"
+    "location": "Łódź, Polska",
+    "isLeader": false
   },
   {
     "id": 7,
@@ -53,7 +59,8 @@
     "startDate": "2025-04-15",
     "endDate": "2025-10-14",
     "durationMonths": 6,
-    "location": "Szczecin, Polska"
+    "location": "Szczecin, Polska",
+    "isLeader": false
   },
   {
     "id": 8,
@@ -61,7 +68,8 @@
     "startDate": "2025-06-10",
     "endDate": "2026-06-09",
     "durationMonths": 12,
-    "location": "Bydgoszcz, Polska"
+    "location": "Bydgoszcz, Polska",
+    "isLeader": false
   },
   {
     "id": 9,
@@ -69,7 +77,8 @@
     "startDate": "2025-08-01",
     "endDate": null,
     "durationMonths": null,
-    "location": "Katowice, Polska"
+    "location": "Katowice, Polska",
+    "isLeader": true
   },
   {
     "id": 10,
@@ -77,6 +86,7 @@
     "startDate": "2025-09-25",
     "endDate": null,
     "durationMonths": null,
-    "location": "Lublin, Polska"
+    "location": "Lublin, Polska",
+    "isLeader": true
   }
 ]

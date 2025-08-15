@@ -5,4 +5,5 @@ export type Contract={
 	endDate: Date;
     durationMonths:number;
     location:string;
+    isLeader:boolean;
 }

@@ -12,6 +12,8 @@ import {
 	SelectGroup,
 } from "@/components/ui/select";
 
+import { Badge } from "@/components/ui/badge";
+
 import {
 	Card,
 	CardContent,
@@ -58,7 +60,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
-import { set } from "date-fns";
+import { getDate, set } from "date-fns";
 
 type Contract = {
 	id: number;
@@ -67,6 +69,7 @@ type Contract = {
 	endDate: Date;
 	durationMonths: number;
 	location: string;
+	isLeader: boolean;
 };
 
 type ContractFilter = {
@@ -121,13 +124,6 @@ export default function Contracts_Page({
 
 	console.log(filters);
 
-	// const filteredByObjectValues=Object.entries(filters).filter(value=>{
-
-	//     if(value. === "" || value === 0) return false;
-
-	//     //const matchedNames= `${value.}`
-	// })
-
 	const [filteredConts, setFilteredConts] = useState(contracts);
 	// when our filters change we do a filtration
 	useEffect(() => {
@@ -176,7 +172,7 @@ export default function Contracts_Page({
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
-			{/* Birthday list */}
+
 			<Card className="flex flex-col w-1/2 shadow-lg">
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
@@ -332,7 +328,6 @@ export default function Contracts_Page({
 								</PopoverContent>
 							</Popover>
 
-							
 							<Button
 								onClick={() => {
 									const filterData = { ...filters };
@@ -405,7 +400,7 @@ export default function Contracts_Page({
 				</CardContent>
 			</Card>
 
-			{/* Contracts list */}
+			{/* LIST OF ALL EMPLOYEES AND THEIR CONTRACTS! */}
 			<Card className="flex flex-col w-3/4 shadow-lg h-full">
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
@@ -422,7 +417,11 @@ export default function Contracts_Page({
 									Employee Name
 								</TableHead>
 								<TableHead className="w-1/5 px-4 py-3 text-center">
-									Duration
+									Duration (months)
+								</TableHead>
+								<TableHead className="w-1/5 px-4 py-3 text-center">
+									Duration <br />
+									(end of a contract)
 								</TableHead>
 								<TableHead className="w-1/5 px-4 py-3 text-center">
 									Start Date
@@ -439,23 +438,50 @@ export default function Contracts_Page({
 						<TableBody>
 							{filteredConts?.length > 0 ? (
 								filteredConts.map((contract) => {
+									const today = new Date();
+									const endDate = new Date(contract.endDate);
+
+									// difference in days between dates
+
+									const diffDays = Math.ceil(
+										(endDate.getTime() - today.getTime()) /
+											(1000 * 60 * 60 * 24)
+									);
+
+									// if the contract ended we give a 0 number
+									const remainingDays = diffDays > 0 ? diffDays : 0;
+
+									const startDateFormatted = new Date(
+										contract.startDate
+									).toLocaleDateString();
 									const endDateFormatted = new Date(
 										contract.endDate
 									).toLocaleDateString();
 
 									return (
 										<TableRow key={contract.id}>
-											<TableCell>{contract.employeeName}</TableCell>
+											<TableCell>
+												{contract.isLeader ? (
+													<Badge variant="destructive">{contract.employeeName}</Badge>
+												) : (
+													contract.employeeName
+												)}
+											</TableCell>
+
 											<TableCell className="text-center">
 												{contract.durationMonths}
 											</TableCell>
 
 											<TableCell className="text-center">
-												{new Date(contract.startDate).toLocaleDateString()}
+												{remainingDays}
 											</TableCell>
 
 											<TableCell className="text-center">
-												{new Date(contract.endDate).toLocaleDateString()}
+												{startDateFormatted}
+											</TableCell>
+
+											<TableCell className="text-center">
+												{endDateFormatted}
 											</TableCell>
 
 											<TableCell className="text-right">
