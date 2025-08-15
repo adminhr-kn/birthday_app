@@ -1,8 +1,8 @@
 export type Contract={
     id:number;
     employeeName:string;
-    startDate:string;
-    endDate:string;
+    startDate: Date;
+	endDate: Date;
     durationMonths:number;
     location:string;
 }
