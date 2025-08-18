@@ -150,7 +150,7 @@ export default function Contracts_Page({
 	}, [filters]);
 
 	return (
-		<main className="flex h-screen w-full p-6 gap-6 bg-background text-foreground">
+		<main className="flex h-full w-full p-6 gap-6 bg-background text-foreground">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button variant="outline" size="icon">
@@ -173,7 +173,7 @@ export default function Contracts_Page({
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<Card className="flex flex-col w-1/2 shadow-lg">
+			<Card className="flex flex-col w-full lg:w-1/2 shadow-lg h-full min-w-0">
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
@@ -366,8 +366,8 @@ export default function Contracts_Page({
 					</div>
 				</CardHeader>
 
-				<CardContent className="flex flex-col gap-4">
-					<ul className="space-y-3 max-h-70 overflow-y-auto pr-2 ">
+				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden">
+					<ul className="space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 ">
 						{filteredConts?.length > 0 ? (
 							filteredConts.map((contract) => {
 								const endDateFormatted = new Date(
@@ -462,7 +462,9 @@ export default function Contracts_Page({
 										<TableRow key={contract.id}>
 											<TableCell>
 												{contract.isLeader ? (
-													<Badge variant="destructive">{contract.employeeName}</Badge>
+													<Badge variant="destructive">
+														{contract.employeeName}
+													</Badge>
 												) : (
 													contract.employeeName
 												)}

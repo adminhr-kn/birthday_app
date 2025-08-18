@@ -3,51 +3,51 @@
 import { useEffect, useState } from "react";
 
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-    SelectGroup,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+	SelectGroup,
 } from "@/components/ui/select";
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from "@/components/ui/table";
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 type Employee = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    location: string;
-    birthDate: string;
+	id: number;
+	firstName: string;
+	lastName: string;
+	location: string;
+	birthDate: string;
 };
 
 // const sampleEmployees: Employee[] = [
@@ -172,7 +172,11 @@ type Employee = {
 // 	},
 // ];
 
-export default function HomePage({initialEmployees}: {initialEmployees: Employee[]}) {
+export default function HomePage({
+	initialEmployees,
+}: {
+	initialEmployees: Employee[];
+}) {
 	const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
@@ -193,8 +197,6 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 			.toLowerCase()
 			.includes(search.toLowerCase())
 	);
-
-
 
 	// filtering employees whose birthday is in the next month
 	const filteredEmployeesBirthDayLessThanMont = employees?.filter((emp) => {
@@ -220,7 +222,6 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 		return monthDiff === changeInMonths;
 	});
 
-
 	return (
 		<main className="flex h-screen w-full p-6 gap-6 bg-background text-foreground">
 			<DropdownMenu>
@@ -244,8 +245,9 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
+
 			{/* Birthday list */}
-			<Card className="flex flex-col w-1/2 shadow-lg">
+			<Card className="flex flex-col w-full lg:w-1/2 shadow-lg h-full min-w-0">
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
@@ -277,7 +279,7 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 					</Select>
 				</CardHeader>
 
-				<CardContent className="flex flex-col gap-4">
+				<CardContent className="flex flex-col gap-4 min-w-0 overflow-hidden">
 					<div className="grid gap-2">
 						<Label htmlFor="search">Search</Label>
 						<Input
@@ -289,7 +291,7 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 						/>
 					</div>
 
-					<ul className="space-y-3 max-h-96 overflow-y-auto pr-2">
+					<ul className="space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 ">
 						{filteredEmployees?.length > 0 ? (
 							filteredEmployeesBirthDayLessThanMont?.map((emp) => {
 								const birthDateFormatted = new Date(
@@ -316,7 +318,6 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 						)}
 					</ul>
 				</CardContent>
-				<CardFooter>{/* Możesz tu dodać przyciski jeśli chcesz */}</CardFooter>
 			</Card>
 
 			{/* Employee table */}
@@ -335,10 +336,12 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 							<TableHeader>
 								<TableRow>
 									<TableHead className="w-16">ID</TableHead>
-									<TableHead className="w-40">First Name</TableHead>
-									<TableHead className="w-40">Last Name</TableHead>
-									<TableHead className="w-40">Location</TableHead>
-									<TableHead className="w-32 text-right">Birth Date</TableHead>
+									<TableHead className="w-40 text-center">First Name</TableHead>
+									<TableHead className="w-40 text-center">Last Name</TableHead>
+									<TableHead className="w-40 text-center">Location</TableHead>
+									<TableHead className="w-32 text-right pr-7">
+										Birth Date
+									</TableHead>
 								</TableRow>
 							</TableHeader>
 						</Table>
@@ -353,11 +356,15 @@ export default function HomePage({initialEmployees}: {initialEmployees: Employee
 													<TableCell className="w-16 font-medium">
 														{emp.id}
 													</TableCell>
-													<TableCell className="w-40">
+													<TableCell className="w-40 text-center">
 														{emp.firstName}
 													</TableCell>
-													<TableCell className="w-40">{emp.lastName}</TableCell>
-													<TableCell className="w-40">{emp.location}</TableCell>
+													<TableCell className="w-40 text-center">
+														{emp.lastName}
+													</TableCell>
+													<TableCell className="w-40 text-center">
+														{emp.location}
+													</TableCell>
 													<TableCell className="w-32 text-right">
 														{emp.birthDate}
 													</TableCell>
