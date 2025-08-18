@@ -223,13 +223,12 @@ export default function HomePage({
 	});
 
 	return (
-		<main className="flex flex-1 min-h-0 w-full p-6 gap-6 bg-background text-foreground">
+		<main className="flex flex-col lg:flex-row flex-1 min-h-0 w-full p-4 lg:p-6 gap-4 lg:gap-6 bg-background text-foreground">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button variant="outline" size="icon">
 						<Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
 						<Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-						{/* This span is for accessibility, it will be read by screen readers */}
 						<span className="sr-only">Toggle theme</span>
 					</Button>
 				</DropdownMenuTrigger>
@@ -247,7 +246,7 @@ export default function HomePage({
 			</DropdownMenu>
 
 			{/* Birthday list */}
-			<Card className="flex flex-col flex-1 shadow-lg min-w-0 h-full">
+			<Card className="flex flex-col flex-1 min-w-0 h-full shadow-lg">
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
@@ -321,7 +320,7 @@ export default function HomePage({
 			</Card>
 
 			{/* Employee table */}
-			<Card className="flex flex-col flex-1 shadow-lg min-w-0 h-full">
+			<Card className="flex flex-col flex-1 min-w-0 h-full shadow-lg mt-4 lg:mt-0">
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
 					<CardDescription>
