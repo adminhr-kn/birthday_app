@@ -223,7 +223,7 @@ export default function HomePage({
 	});
 
 	return (
-		<main className="flex h-screen w-full p-6 gap-6 bg-background text-foreground">
+		<main className="flex flex-1 min-h-0 w-full p-6 gap-6 bg-background text-foreground">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button variant="outline" size="icon">
@@ -247,7 +247,7 @@ export default function HomePage({
 			</DropdownMenu>
 
 			{/* Birthday list */}
-			<Card className="flex flex-col w-full lg:w-1/2 shadow-lg h-full min-w-0">
+			<Card className="flex flex-col flex-1 shadow-lg min-w-0 h-full">
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
@@ -321,7 +321,7 @@ export default function HomePage({
 			</Card>
 
 			{/* Employee table */}
-			<Card className="flex flex-col w-1/2 shadow-lg h-full">
+			<Card className="flex flex-col flex-1 shadow-lg min-w-0 h-full">
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
 					<CardDescription>
