@@ -26,9 +26,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning className="h-full">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
+				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full min-h-screen flex flex-col`}>
 				<ThemeProvider
 					// attribute tells to save the theme in the class attribute (document.documentElement) which is <html> element!
 					// to powoduje ze zmiana w setterze zmienia kolor strony
@@ -40,8 +40,7 @@ export default function RootLayout({
 					<div className="ml-[24px]">
 						<PoppingImportantDates />
 					</div>
-
-					{children}
+					<div className="flex-1 flex flex-col min-h-0">{children}</div>
 				</ThemeProvider>
 			</body>
 		</html>
