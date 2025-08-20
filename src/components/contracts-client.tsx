@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import {
 	Select,
 	SelectContent,
@@ -124,6 +126,8 @@ export default function Contracts_Page({
 
 	console.log(filters);
 
+	//cookies now?
+	//busy i think, ah
 	const [filteredConts, setFilteredConts] = useState(contracts);
 	// when our filters change we do a filtration
 	useEffect(() => {
@@ -139,7 +143,8 @@ export default function Contracts_Page({
 					? x.location.toLowerCase() === filters.location.toLowerCase()
 					: true) &&
 				(filters.endDate.to
-					? new Date(x.endDate) < new Date(filters.endDate.to || new Date())
+					? new Date(x.endDate) < new Date(filters.endDate.to || new Date()) &&
+					  new Date(x.endDate) > new Date(filters.endDate.from || new Date())
 					: true) &&
 				(filters.monthDuration
 					? x.durationMonths === filters.monthDuration
@@ -150,7 +155,7 @@ export default function Contracts_Page({
 	}, [filters]);
 
 	return (
-		<main className="flex h-full w-full p-6 gap-6 bg-background text-foreground">
+		<main className="flex flex-col lg:flex-row flex-1 min-h-0 w-full p-4 lg:p-6 gap-4 lg:gap-6 bg-background text-foreground">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button variant="outline" size="icon">
@@ -273,11 +278,25 @@ export default function Contracts_Page({
 							</Popover>
 						</div>
 
-						<div className="flex flex-col gap-2 ml-[20px]">
-							<Label htmlFor="startDate">Start Date</Label>
+						<div className="flex flex-col gap-2">
+							{/* a input for range when employee finishes contract */}
+							<Label htmlFor="startDate">End of contract</Label>
 
 							{/* Once more open or not we have a date picker amd build in onOpenChange */}
-							<Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+							<Popover
+								open={datePickerOpen}
+								onOpenChange={() => {
+									setDate(undefined);
+									const filterData = { ...filters };
+									setFilter({
+										...filterData,
+										endDate: {
+											from: new Date(),
+										},
+									});
+
+									setDatePickerOpen(!datePickerOpen);
+								}}>
 								{/* PopoverTrigger is the thing that user clicks and opens the popover content */}
 								<PopoverTrigger asChild>
 									<Button
@@ -306,6 +325,7 @@ export default function Contracts_Page({
 										endMonth={new Date(2100, 11)}
 										captionLayout="dropdown"
 										onSelect={(selected) => {
+											// reset every time
 											setDate(selected);
 
 											const temp = filters;
@@ -328,7 +348,7 @@ export default function Contracts_Page({
 								</PopoverContent>
 							</Popover>
 
-							<Button
+							{/* <Button
 								onClick={() => {
 									const filterData = { ...filters };
 									setFilter({
@@ -340,7 +360,7 @@ export default function Contracts_Page({
 									setDate(undefined);
 								}}>
 								Reset Date
-							</Button>
+							</Button> */}
 						</div>
 
 						<div className="flex flex-col gap-2">
@@ -367,7 +387,7 @@ export default function Contracts_Page({
 				</CardHeader>
 
 				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden">
-					<ul className="space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 ">
+					<ul className=" flex flex-col space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 ">
 						{filteredConts?.length > 0 ? (
 							filteredConts.map((contract) => {
 								const endDateFormatted = new Date(
@@ -377,17 +397,28 @@ export default function Contracts_Page({
 								return (
 									<li
 										key={contract.id}
-										className="border rounded-lg p-3 bg-card shadow-sm">
-										<p className="font-semibold">{contract.employeeName}</p>
-										<p className="text-sm text-muted-foreground">
-											{contract.location}
-										</p>
-										<p className="text-sm text-muted-foreground">
-											{endDateFormatted}
-										</p>
-										<p className="text-sm text-muted-foreground">
-											{contract.durationMonths} months
-										</p>
+										className=" flex items-center gap-3 border rounded-lg p-3 bg-card shadow-sm">
+										<Avatar>
+											<AvatarImage
+												src="https://github.com/shadcn.png"
+												alt="@shadcn"
+											/>
+											<AvatarFallback>CN</AvatarFallback>
+										</Avatar>
+										<div className="flex flex-col  ">
+											<p className="font-semibold">{contract.employeeName}</p>
+											<p className="text-sm text-muted-foreground">
+												{contract.location}
+											</p>
+											<p className="text-sm text-muted-foreground">
+												{endDateFormatted}
+											</p>
+											<p className="text-sm text-neutral-50">
+												{contract.durationMonths != null
+													? contract.durationMonths + " months"
+													: null}
+											</p>
+										</div>
 									</li>
 								);
 							})
@@ -401,7 +432,7 @@ export default function Contracts_Page({
 			</Card>
 
 			{/* LIST OF ALL EMPLOYEES AND THEIR CONTRACTS! */}
-			<Card className="flex flex-col w-3/4 shadow-lg h-full">
+			<Card className="hidden lg:flex lg:flex-col w-3/4 shadow-lg h-full">
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
 					<CardDescription>

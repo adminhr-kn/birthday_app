@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
 	Select,
@@ -246,7 +247,7 @@ export default function HomePage({
 			</DropdownMenu>
 
 			{/* Birthday list */}
-			<Card className="flex flex-col flex-1 min-w-0 h-full shadow-lg">
+			<Card className="flex flex-col w-full lg:w-1/2 min-w-0 h-full shadow-lg">
 				<CardHeader className="space-y-2">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
@@ -278,7 +279,7 @@ export default function HomePage({
 					</Select>
 				</CardHeader>
 
-				<CardContent className="flex flex-col gap-4 min-w-0 overflow-hidden">
+				<CardContent className="flex flex-col gap-4 min-w-0 overflow-hidden flex-1 ">
 					<div className="grid gap-2">
 						<Label htmlFor="search">Search</Label>
 						<Input
@@ -290,7 +291,7 @@ export default function HomePage({
 						/>
 					</div>
 
-					<ul className="space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 ">
+					<ul className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1 lg:max-h-145 ">
 						{filteredEmployees?.length > 0 ? (
 							filteredEmployeesBirthDayLessThanMont?.map((emp) => {
 								const birthDateFormatted = new Date(
@@ -299,14 +300,24 @@ export default function HomePage({
 								return (
 									<li
 										key={emp.id}
-										className="border rounded-lg p-3 bg-card shadow-sm">
-										<p className="font-semibold">
-											{emp.firstName} {emp.lastName}
-										</p>
-										<p className="text-sm text-muted-foreground">
-											{emp.location}
-										</p>
-										<p className="text-sm">Birthday: {birthDateFormatted}</p>
+										// flex, things in a row, items-center. making them vertically in the same line!, gap between them. now it looks good!
+										className="flex items-center gap-3 border rounded-lg p-4 bg-card shadow-sm">
+										<Avatar>
+											<AvatarImage
+												src="https://github.com/shadcn.png"
+												alt="@shadcn"
+											/>
+											<AvatarFallback>CN</AvatarFallback>
+										</Avatar>
+										<div className="flex flex-col ">
+											<p className="font-semibold">
+												{emp.firstName} {emp.lastName}
+											</p>
+											<p className="text-sm text-muted-foreground">
+												{emp.location}
+											</p>
+											<p className="text-sm">Birthday: {birthDateFormatted}</p>
+										</div>
 									</li>
 								);
 							})
@@ -320,7 +331,7 @@ export default function HomePage({
 			</Card>
 
 			{/* Employee table */}
-			<Card className="flex flex-col flex-1 min-w-0 h-full shadow-lg mt-4 lg:mt-0">
+			<Card className="hidden lg:flex lg:flex-col min-w-0 w-3/4 h-full shadow-lg mt-4 lg:mt-0">
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
 					<CardDescription>
