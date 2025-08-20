@@ -1,22 +1,22 @@
 [
 	{
 		"type": "holiday",
-		"name": "Dzień Niepodległości Indonezji",
+		"name": "Indonesia Independence Day",
 		"date": "2025-08-17"
 	},
 	{
 		"type": "birthday",
-		"name": "Urodziny Mateusza",
+		"name": "Mateusz's Birthday",
 		"date": "1996-02-14"
 	},
 	{
 		"type": "birthday",
-		"name": "Urodziny Bartka",
+		"name": "Bartek's Birthday",
 		"date": "1994-06-03"
 	},
 	{
 		"type": "birthday",
-		"name": "Urodziny Abdallaha",
+		"name": "Abdallah's Birthday",
 		"date": "1992-11-27"
 	}
 ]
