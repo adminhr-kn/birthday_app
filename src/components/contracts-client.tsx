@@ -42,6 +42,7 @@ import {
 	ChevronsUpDown,
 	Moon,
 	Sun,
+	X,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,9 @@ export default function Contracts_Page({
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
 
+	//hooks for UX clicking on a user
+	const [isopen, setisOpen] = useState<number | null>(null);
+
 	// destructuring a setTheme from useTheme hook
 	const { setTheme } = useTheme();
 
@@ -126,8 +130,6 @@ export default function Contracts_Page({
 
 	console.log(filters);
 
-	//cookies now?
-	//busy i think, ah
 	const [filteredConts, setFilteredConts] = useState(contracts);
 	// when our filters change we do a filtration
 	useEffect(() => {
@@ -143,7 +145,9 @@ export default function Contracts_Page({
 					? x.location.toLowerCase() === filters.location.toLowerCase()
 					: true) &&
 				(filters.endDate.to
-					? new Date(x.endDate) < new Date(filters.endDate.to || new Date()) &&
+					? //if we have a date we have to check if its before the ending contract date
+					  new Date(x.endDate) < new Date(filters.endDate.to || new Date()) &&
+					  // and after the starting contract date
 					  new Date(x.endDate) > new Date(filters.endDate.from || new Date())
 					: true) &&
 				(filters.monthDuration
@@ -387,7 +391,9 @@ export default function Contracts_Page({
 				</CardHeader>
 
 				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden">
-					<ul className=" flex flex-col space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 ">
+					<ul
+						className=" flex flex-col space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 "
+						onScroll={() => setisOpen(null)}>
 						{filteredConts?.length > 0 ? (
 							filteredConts.map((contract) => {
 								const endDateFormatted = new Date(
@@ -395,31 +401,64 @@ export default function Contracts_Page({
 								).toLocaleDateString();
 
 								return (
-									<li
+									<Popover
 										key={contract.id}
-										className=" flex items-center gap-3 border rounded-lg p-3 bg-card shadow-sm">
-										<Avatar>
-											<AvatarImage
-												src="https://github.com/shadcn.png"
-												alt="@shadcn"
-											/>
-											<AvatarFallback>CN</AvatarFallback>
-										</Avatar>
-										<div className="flex flex-col  ">
-											<p className="font-semibold">{contract.employeeName}</p>
-											<p className="text-sm text-muted-foreground">
-												{contract.location}
+										open={isopen === contract.id}
+										onOpenChange={(isOpen) =>
+											setisOpen(isOpen ? contract.id : null)
+										}>
+										<PopoverTrigger asChild>
+											<li
+												key={contract.id}
+												className=" flex items-center gap-3 border rounded-lg p-3 bg-card shadow-sm">
+												<Avatar>
+													<AvatarImage
+														src="https://github.com/shadcn.png"
+														alt="@shadcn"
+													/>
+													<AvatarFallback>CN</AvatarFallback>
+												</Avatar>
+												<div className="flex flex-col  ">
+													<p className="font-semibold">
+														{contract.employeeName}
+													</p>
+													<p className="text-sm text-muted-foreground">
+														{contract.location}
+													</p>
+													<p className="text-sm text-muted-foreground">
+														{endDateFormatted}
+													</p>
+													<p className="text-sm text-neutral-50">
+														{contract.durationMonths != null
+															? contract.durationMonths + " months"
+															: null}
+													</p>
+												</div>
+											</li>
+										</PopoverTrigger>
+										<PopoverContent className="w-72">
+											<div className="flex justify-between items-center mb-2">
+												<p className="font-semibold">Contract details</p>
+												<Button
+													variant="ghost"
+													size="icon"
+													onClick={() => setisOpen(null)}>
+													<X className="h-4 w-4" />
+												</Button>
+											</div>
+											<p>Name: {contract.employeeName}</p>
+											<p>Duration: {contract.durationMonths}</p>
+											<p>
+												Start Date:{" "}
+												{new Date(contract.startDate).toLocaleDateString()}
 											</p>
-											<p className="text-sm text-muted-foreground">
-												{endDateFormatted}
+											<p>
+												End Date:{" "}
+												{new Date(contract.endDate).toLocaleDateString()}
 											</p>
-											<p className="text-sm text-neutral-50">
-												{contract.durationMonths != null
-													? contract.durationMonths + " months"
-													: null}
-											</p>
-										</div>
-									</li>
+											<p>Location: {contract.location}</p>
+										</PopoverContent>
+									</Popover>
 								);
 							})
 						) : (

@@ -33,7 +33,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +42,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type Employee = {
 	id: number;
@@ -193,6 +194,9 @@ export default function HomePage({
 	//         .catch((err) => console.error("Error while fetching:", err));
 	// }, []);
 
+	// Opening the data about user
+	const [isopen, setOpen] = useState<number | null>(null);
+
 	const filteredEmployees = employees?.filter((emp) =>
 		`${emp.id} ${emp.firstName} ${emp.lastName} ${emp.location} ${emp.birthDate}`
 			.toLowerCase()
@@ -291,34 +295,64 @@ export default function HomePage({
 						/>
 					</div>
 
-					<ul className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1 lg:max-h-145 ">
+					{/* // closing when we scrolled down the list*/}
+					<ul
+						className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1 lg:max-h-145 "
+						onScroll={() => setOpen(null)}>
 						{filteredEmployees?.length > 0 ? (
 							filteredEmployeesBirthDayLessThanMont?.map((emp) => {
 								const birthDateFormatted = new Date(
 									emp.birthDate
 								).toLocaleDateString();
 								return (
-									<li
+									<Popover
+										// const [open, setOpen] = useState<number | null>(null);
 										key={emp.id}
-										// flex, things in a row, items-center. making them vertically in the same line!, gap between them. now it looks good!
-										className="flex items-center gap-3 border rounded-lg p-4 bg-card shadow-sm">
-										<Avatar>
-											<AvatarImage
-												src="https://github.com/shadcn.png"
-												alt="@shadcn"
-											/>
-											<AvatarFallback>CN</AvatarFallback>
-										</Avatar>
-										<div className="flex flex-col ">
-											<p className="font-semibold">
-												{emp.firstName} {emp.lastName}
-											</p>
-											<p className="text-sm text-muted-foreground">
-												{emp.location}
-											</p>
-											<p className="text-sm">Birthday: {birthDateFormatted}</p>
-										</div>
-									</li>
+										// if it is opened we open the popoverContent, but only for this exact user
+										open={isopen === emp.id}
+										// when we click on PopoverTrigger the onOpenChange will be called with the value, we set the "isopen" value hook by setOpen() and the
+										onOpenChange={(isOpen) => setOpen(isOpen ? emp.id : null)}>
+										<PopoverTrigger asChild>
+											<li
+												key={emp.id}
+												// flex, things in a row, items-center. making them vertically in the same line!, gap between them. now it looks good!
+												className="flex items-center gap-3 border rounded-lg p-4 bg-card shadow-sm">
+												<Avatar>
+													<AvatarImage
+														src="https://github.com/shadcn.png"
+														alt="@shadcn"
+													/>
+													<AvatarFallback>CN</AvatarFallback>
+												</Avatar>
+												<div className="flex flex-col ">
+													<p className="font-semibold">
+														{emp.firstName} {emp.lastName}
+													</p>
+													<p className="text-sm text-muted-foreground">
+														{emp.location}
+													</p>
+													<p className="text-sm">
+														Birthday: {birthDateFormatted}
+													</p>
+												</div>
+											</li>
+										</PopoverTrigger>
+										<PopoverContent className="w-72" side="top">
+											<div className="flex justify-between items-center mb-2">
+												<p className="font-semibold">User details</p>
+												<Button
+													variant="ghost"
+													size="icon"
+													onClick={() => setOpen(null)}>
+													<X className="h-4 w-4" />
+												</Button>
+											</div>
+											<p>Name: {emp.firstName}</p>
+											<p>Surname: {emp.lastName}</p>
+											<p>Location: {emp.location}</p>
+											<p>Birthday: {birthDateFormatted}</p>
+										</PopoverContent>
+									</Popover>
 								);
 							})
 						) : (
