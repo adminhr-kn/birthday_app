@@ -64,16 +64,16 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
 import { getDate, set } from "date-fns";
-
-type Contract = {
-	id: number;
-	employeeName: string;
-	startDate: Date;
-	endDate: Date;
-	durationMonths: number;
-	location: string;
-	isLeader: boolean;
-};
+import { Contract } from "@/types/contracts";
+// type Contract = {
+// 	id: number;
+// 	employeeName: string;
+// 	startDate: Date;
+// 	endDate: Date;
+// 	durationMonths: number;
+// 	location: string;
+// 	isLeader: boolean;
+// };
 
 type ContractFilter = {
 	name: string;
@@ -121,7 +121,7 @@ export default function Contracts_Page({
 	// all locations possible
 	// Array.form makes a table
 	const filteredLocations = Array.from(
-		new Set(contracts.map((c) => c.location)) // new Set to get unique locations
+		new Set(contracts.map((c) => c.branch)) // new Set to get unique locations
 	).map((loc) => ({
 		value: loc,
 		label: loc,
@@ -139,20 +139,22 @@ export default function Contracts_Page({
 				// if names match we go on and check next filter, if all are true we return the contract
 				// if something isnt right the 1 thing will return false and we wont have the contract in the filteredConts
 				(filters.name
-					? x.employeeName.toLowerCase().includes(filters.name.toLowerCase())
+					? x.first_name.toLowerCase().includes(filters.name.toLowerCase())
 					: true) &&
 				(filters.location
-					? x.location.toLowerCase() === filters.location.toLowerCase()
+					? x.branch.toLowerCase() === filters.location.toLowerCase()
 					: true) &&
 				(filters.endDate.to
 					? //if we have a date we have to check if its before the ending contract date
-					  new Date(x.endDate) < new Date(filters.endDate.to || new Date()) &&
+					  new Date(x.end_date) < new Date(filters.endDate.to || new Date()) &&
 					  // and after the starting contract date
-					  new Date(x.endDate) > new Date(filters.endDate.from || new Date())
+					  new Date(x.end_date) > new Date(filters.endDate.from || new Date())
 					: true) &&
 				(filters.monthDuration
 					? x.durationMonths === filters.monthDuration
-					: true)
+					: true) &&
+				!x.email.includes("resign.") &&
+				(x.resign_date === "" || x.resign_date === null)
 		);
 		console.log("Filtered Contracts:", result);
 		setFilteredConts(result);
@@ -397,39 +399,43 @@ export default function Contracts_Page({
 						{filteredConts?.length > 0 ? (
 							filteredConts.map((contract) => {
 								const endDateFormatted = new Date(
-									contract.endDate
+									contract.end_date
 								).toLocaleDateString();
 
 								return (
 									<Popover
-										key={contract.id}
-										open={isopen === contract.id}
+										key={contract.user_id}
+										open={isopen === contract.user_id}
 										onOpenChange={(isOpen) =>
-											setisOpen(isOpen ? contract.id : null)
+											setisOpen(isOpen ? contract.user_id : null)
 										}>
 										<PopoverTrigger asChild>
 											<li
-												key={contract.id}
+												key={contract.user_id}
 												className=" flex items-center gap-3 border rounded-lg p-3 bg-card shadow-sm">
-												<Avatar>
+												<Avatar className="relative w-30 h-30 overflow-hidden">
 													<AvatarImage
-														src="https://github.com/shadcn.png"
+														className="
+													w-full h-full object-cover block
+													"
+														src={contract.avatar}
 														alt="@shadcn"
 													/>
 													<AvatarFallback>CN</AvatarFallback>
 												</Avatar>
 												<div className="flex flex-col  ">
-													<p className="font-semibold">
-														{contract.employeeName}
+													<p className="font-semibold">{contract.first_name}</p>
+													<p className="text-sm text-muted-foreground">
+														{contract.branch}
 													</p>
 													<p className="text-sm text-muted-foreground">
-														{contract.location}
-													</p>
-													<p className="text-sm text-muted-foreground">
-														{endDateFormatted}
+														{endDateFormatted != "Invalid Date"
+															? endDateFormatted
+															: "No end date"}
 													</p>
 													<p className="text-sm text-neutral-50">
-														{contract.durationMonths != null
+														{contract.durationMonths != null &&
+														!Number.isNaN(contract.durationMonths)
 															? contract.durationMonths + " months"
 															: null}
 													</p>
@@ -446,17 +452,17 @@ export default function Contracts_Page({
 													<X className="h-4 w-4" />
 												</Button>
 											</div>
-											<p>Name: {contract.employeeName}</p>
+											<p>Name: {contract.first_name}</p>
 											<p>Duration: {contract.durationMonths}</p>
 											<p>
 												Start Date:{" "}
-												{new Date(contract.startDate).toLocaleDateString()}
+												{new Date(contract.join_date).toLocaleDateString()}
 											</p>
 											<p>
 												End Date:{" "}
-												{new Date(contract.endDate).toLocaleDateString()}
+												{new Date(contract.end_date).toLocaleDateString()}
 											</p>
-											<p>Location: {contract.location}</p>
+											<p>Location: {contract.branch}</p>
 										</PopoverContent>
 									</Popover>
 								);
@@ -479,94 +485,100 @@ export default function Contracts_Page({
 					</CardDescription>
 				</CardHeader>
 
-				<CardContent className="flex-1 min-h-0 ">
-					<Table className="table-fixed w-full">
-						<TableHeader>
-							<TableRow>
-								<TableHead className="w-1/5 px-4 pl-1 py-3 text-left">
-									Employee Name
-								</TableHead>
-								<TableHead className="w-1/5 px-4 py-3 text-center">
-									Duration (months)
-								</TableHead>
-								<TableHead className="w-1/5 px-4 py-3 text-center">
-									Duration <br />
-									(end of a contract)
-								</TableHead>
-								<TableHead className="w-1/5 px-4 py-3 text-center">
-									Start Date
-								</TableHead>
-								<TableHead className="w-1/5 px-4 py-3 text-center">
-									End Date
-								</TableHead>
-								<TableHead className="w-1/5 px-4 pr-1 py-3 text-right">
-									Location
-								</TableHead>
-							</TableRow>
-						</TableHeader>
+				<CardContent className="flex-1 min-h-0  flex flex-col gap-4">
+					<div className="flex min-h-0 flex-1 flex-col">
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead className="w-1/5 px-4 pl-1 py-3 text-left">
+										Employee Name
+									</TableHead>
+									<TableHead className="w-1/5 px-4 py-3 text-center">
+										Duration (months)
+									</TableHead>
+									<TableHead className="w-1/5 px-4 py-3 text-center">
+										Duration <br />
+										(days left)
+									</TableHead>
+									<TableHead className="w-1/5 px-4 py-3 text-center">
+										Start Date
+									</TableHead>
+									<TableHead className="w-1/5 px-4 py-3 text-center">
+										End Date
+									</TableHead>
+									<TableHead className="w-1/5 px-4 pr-1 py-3 text-right">
+										Location
+									</TableHead>
+								</TableRow>
+							</TableHeader>
+									{/* <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]"> */}
 
-						<TableBody>
-							{filteredConts?.length > 0 ? (
-								filteredConts.map((contract) => {
-									const today = new Date();
-									const endDate = new Date(contract.endDate);
+								<TableBody>
+									{filteredConts?.length > 0 ? (
+										filteredConts.map((contract) => {
+											const today = new Date();
+											const endDate = new Date(contract.end_date);
 
-									// difference in days between dates
+											// difference in days between dates
 
-									const diffDays = Math.ceil(
-										(endDate.getTime() - today.getTime()) /
-											(1000 * 60 * 60 * 24)
-									);
+											const diffDays = Math.ceil(
+												(endDate.getTime() - today.getTime()) /
+													(1000 * 60 * 60 * 24)
+											);
 
-									// if the contract ended we give a 0 number
-									const remainingDays = diffDays > 0 ? diffDays : 0;
+											// if the contract ended we give a 0 number
+											const remainingDays = diffDays > 0 ? diffDays : 0;
 
-									const startDateFormatted = new Date(
-										contract.startDate
-									).toLocaleDateString();
-									const endDateFormatted = new Date(
-										contract.endDate
-									).toLocaleDateString();
+											const startDateFormatted = new Date(
+												contract.join_date
+											).toLocaleDateString();
+											const endDateFormatted = new Date(
+												contract.end_date
+											).toLocaleDateString();
 
-									return (
-										<TableRow key={contract.id}>
-											<TableCell>
-												{contract.isLeader ? (
-													<Badge variant="destructive">
-														{contract.employeeName}
-													</Badge>
-												) : (
-													contract.employeeName
-												)}
-											</TableCell>
+											return (
+												<TableRow key={contract.user_id}>
+													<TableCell>
+														{contract.job_level !== "Staff" && contract.job_level !=="Non Staff" ? (
+															<Badge variant="destructive">
+																{contract.first_name}
+															</Badge>
+														) : (
+															contract.first_name
+														)}
+													</TableCell>
 
-											<TableCell className="text-center">
-												{contract.durationMonths}
-											</TableCell>
+													<TableCell className="text-center">
+														{Number.isNaN(contract.durationMonths)
+															? "Untouchable"
+															: contract.durationMonths}
+													</TableCell>
 
-											<TableCell className="text-center">
-												{remainingDays}
-											</TableCell>
+													<TableCell className="text-center">
+														{remainingDays}
+													</TableCell>
 
-											<TableCell className="text-center">
-												{startDateFormatted}
-											</TableCell>
+													<TableCell className="text-center">
+														{startDateFormatted}
+													</TableCell>
 
-											<TableCell className="text-center">
-												{endDateFormatted}
-											</TableCell>
+													<TableCell className="text-center">
+														{endDateFormatted}
+													</TableCell>
 
-											<TableCell className="text-right">
-												{contract.location}
-											</TableCell>
-										</TableRow>
-									);
-								})
-							) : (
-								<></>
-							)}
-						</TableBody>
-					</Table>
+													<TableCell className="text-right">
+														{contract.branch}
+													</TableCell>
+												</TableRow>
+											);
+										})
+									) : (
+										<></>
+									)}
+								</TableBody>
+							{/* </div> */}
+						</Table>
+					</div>
 				</CardContent>
 			</Card>
 		</main>

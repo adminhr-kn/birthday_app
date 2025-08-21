@@ -8,5 +8,5 @@ export default async function Page() {
 	});
   const newData: any[] = await apiRes.json();
   const data: Employee[] = await res.json();
-  return <HomeClient initialEmployees={data} newData={newData} />;
+  return <HomeClient newData={newData} />;
 }

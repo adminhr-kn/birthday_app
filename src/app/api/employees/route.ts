@@ -111,7 +111,8 @@ export async function GET() {
 		}
 
 		// the returning partis
-		return Response.json([employees, pagination]);
+		return Response.json(employees);
+		//return Response.json([employees, pagination]);
 
 		// if issue then return the error
 	} catch (err: any) {
