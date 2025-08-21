@@ -1,16 +1,18 @@
 export type Contract = {
 	avatar: string;
-    email:string;
-    gender:string;
+	email: string;
+	gender: string;
 	branch: string; // branch is location!
-    job_level:string; //not staff none staff
-    resign_date:string;
-    join_date:string;
-    end_date:string;
-    user_id: number;
-    first_name: string;
-    last_name: string;
-    durationMonths?:number;
+	job_level: string; //not staff none staff
+	resign_date: string;
+	join_date: string;
+	end_date: string;
+	user_id: number;
+	first_name: string;
+	last_name: string;
+	durationMonths?: number;
+	organization_name: string;
+	mobile_phone:string;
 };
 
 /*
