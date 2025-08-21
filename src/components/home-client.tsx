@@ -1,3 +1,10 @@
+// Pobranie danych po zamontowaniu komponentu
+// useEffect(() => {
+//     fetch("/users.json") // jeśli plik jest w public/
+//         .then((res) => res.json())
+//         .then((data: Employee[]) => setEmployees(data))
+//         .catch((err) => console.error("Error while fetching:", err));
+// }, []);
 "use client";
 
 import { useEffect, useState } from "react";
@@ -45,181 +52,62 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type Employee = {
-	id: number;
-	firstName: string;
-	lastName: string;
-	location: string;
-	birthDate: string;
+	avatar: string;
+	branch: string; // branch is location!
+	email: string;
+	gender: string;
+	job_level: string;
+	user_id: number;
+	first_name: string;
+	last_name: string;
+	birth_date: string;
+	employee_id: string;
+	resign_date: string;
 };
 
-// const sampleEmployees: Employee[] = [
-// 	{
-// 		id: 1,
-// 		firstName: "Anna",
-// 		lastName: "Kowalska",
-// 		location: "Warsaw",
-// 		birthDate: "1990-08-20",
-// 	},
-// 	{
-// 		id: 2,
-// 		firstName: "Jan",
-// 		lastName: "Nowak",
-// 		location: "Warsaw",
-// 		birthDate: "1985-09-30",
-// 	},
-// 	{
-// 		id: 3,
-// 		firstName: "Marek",
-// 		lastName: "Wiśniewski",
-// 		location: "Gdańsk",
-// 		birthDate: "1978-09-05",
-// 	},
-// 	{
-// 		id: 4,
-// 		firstName: "Zahra",
-// 		lastName: "Table",
-// 		location: "Jakarta",
-// 		birthDate: "1978-09-10",
-// 	},
-// 	{
-// 		id: 5,
-// 		firstName: "Shamus",
-// 		lastName: "Mcter",
-// 		location: "Bangkok",
-// 		birthDate: "1978-10-15",
-// 	},
-// 	{
-// 		id: 6,
-// 		firstName: "Liam",
-// 		lastName: "Anderson",
-// 		location: "London",
-// 		birthDate: "1990-09-02",
-// 	},
-// 	{
-// 		id: 7,
-// 		firstName: "Sophia",
-// 		lastName: "Martinez",
-// 		location: "Madrid",
-// 		birthDate: "1985-09-05",
-// 	},
-// 	{
-// 		id: 8,
-// 		firstName: "Noah",
-// 		lastName: "Schmidt",
-// 		location: "Berlin",
-// 		birthDate: "1992-09-08",
-// 	},
-// 	{
-// 		id: 9,
-// 		firstName: "Ava",
-// 		lastName: "Kowalska",
-// 		location: "Warsaw",
-// 		birthDate: "1998-09-10",
-// 	},
-// 	{
-// 		id: 10,
-// 		firstName: "Ethan",
-// 		lastName: "Dubois",
-// 		location: "Paris",
-// 		birthDate: "1987-09-12",
-// 	},
-// 	{
-// 		id: 11,
-// 		firstName: "Isabella",
-// 		lastName: "Rossi",
-// 		location: "Rome",
-// 		birthDate: "1993-09-15",
-// 	},
-// 	{
-// 		id: 12,
-// 		firstName: "Lucas",
-// 		lastName: "Kim",
-// 		location: "Seoul",
-// 		birthDate: "1989-09-18",
-// 	},
-// 	{
-// 		id: 13,
-// 		firstName: "Mia",
-// 		lastName: "Hansen",
-// 		location: "Copenhagen",
-// 		birthDate: "1995-09-21",
-// 	},
-// 	{
-// 		id: 14,
-// 		firstName: "Oliver",
-// 		lastName: "Singh",
-// 		location: "Delhi",
-// 		birthDate: "1983-09-25",
-// 	},
-// 	{
-// 		id: 15,
-// 		firstName: "Emma",
-// 		lastName: "Peterson",
-// 		location: "Stockholm",
-// 		birthDate: "2000-09-29",
-// 	},
-// 	{
-// 		id: 16,
-// 		firstName: "Emma",
-// 		lastName: "SPY",
-// 		location: "Stockholm",
-// 		birthDate: "2000-11-29",
-// 	},
-// 	{
-// 		id: 17,
-// 		firstName: "Jason",
-// 		lastName: "Heavy",
-// 		location: "Stockholm",
-// 		birthDate: "2000-02-29",
-// 	},
-// ];
-
-export default function HomePage({
-	initialEmployees,
-	newData
-}: {
-	initialEmployees: Employee[];
-	newData?: any[]
-}) {
-	const [employees, setEmployees] = useState<any[]>(initialEmployees);
+export default function HomePage({ newData }: { newData: Employee[] }) {
+	const [employees, setEmployees] = useState<Employee[]>(newData);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
 
+	// newData is API from Talenta, fetched
 	useEffect(() => {
 		console.log("initialEmployees", newData);
+		// make new set from job_levels and console log
+		const job_levels = new Set(
+			newData.map((emp) => emp.job_level.toLowerCase())
+		);
+		console.log("job_levels", job_levels);
 	}, [newData]);
 
 	// destructuring a setTheme from useTheme hook
 	const { setTheme } = useTheme();
 
-	// Pobranie danych po zamontowaniu komponentu
-	// useEffect(() => {
-	//     fetch("/users.json") // jeśli plik jest w public/
-	//         .then((res) => res.json())
-	//         .then((data: Employee[]) => setEmployees(data))
-	//         .catch((err) => console.error("Error while fetching:", err));
-	// }, []);
-
 	// Opening the data about user
 	const [isopen, setOpen] = useState<number | null>(null);
 
-	const filteredEmployees = employees?.filter((emp) =>
-		`${emp.id} ${emp.firstName} ${emp.lastName} ${emp.location} ${emp.birthDate}`
-			.toLowerCase()
-			.includes(search.toLowerCase())
+	const filteredEmployees = employees?.filter(
+		(emp) =>
+			`${emp.user_id} ${emp.first_name} ${emp.last_name} ${emp.branch} ${emp.birth_date} ${emp.email} ${emp.gender}  ${emp.avatar} ${emp.job_level}`
+				.toLowerCase()
+				.includes(search.toLowerCase()) &&
+			!emp.email.includes("resign.") &&
+			(emp.resign_date === "" || emp.resign_date === null)
 	);
 
 	// filtering employees whose birthday is in the next month
 	const filteredEmployeesBirthDayLessThanMont = employees?.filter((emp) => {
 		const matchesSearch =
-			`${emp.id} ${emp.firstName} ${emp.lastName} ${emp.location} ${emp.birthDate}`
+			`${emp.user_id} ${emp.first_name} ${emp.last_name} ${emp.branch} ${emp.birth_date} ${emp.email} ${emp.gender}  ${emp.avatar} ${emp.job_level}`
 				.toLowerCase()
-				.includes(search.toLowerCase());
+				.includes(search.toLowerCase()) &&
+			!emp.email.includes("resign.") &&
+			(emp.resign_date === "" || emp.resign_date === null);
 
 		if (!matchesSearch) return false;
 
 		// checking birthday in a month
-		const birthDate = new Date(emp.birthDate);
+		const birthDate = new Date(emp.birth_date);
 		const currentDate = new Date();
 
 		const changeInMonths = months;
@@ -308,34 +196,39 @@ export default function HomePage({
 						{filteredEmployees?.length > 0 ? (
 							filteredEmployeesBirthDayLessThanMont?.map((emp) => {
 								const birthDateFormatted = new Date(
-									emp.birthDate
+									emp.birth_date
 								).toLocaleDateString();
 								return (
 									<Popover
 										// const [open, setOpen] = useState<number | null>(null);
-										key={emp.id}
+										key={emp.user_id}
 										// if it is opened we open the popoverContent, but only for this exact user
-										open={isopen === emp.id}
+										open={isopen === emp.user_id}
 										// when we click on PopoverTrigger the onOpenChange will be called with the value, we set the "isopen" value hook by setOpen() and the
-										onOpenChange={(isOpen) => setOpen(isOpen ? emp.id : null)}>
+										onOpenChange={(isOpen) =>
+											setOpen(isOpen ? emp.user_id : null)
+										}>
 										<PopoverTrigger asChild>
 											<li
-												key={emp.id}
+												key={emp.user_id}
 												// flex, things in a row, items-center. making them vertically in the same line!, gap between them. now it looks good!
 												className="flex items-center gap-3 border rounded-lg p-4 bg-card shadow-sm">
-												<Avatar>
+												<Avatar className="relative w-30 h-30 overflow-hidden">
 													<AvatarImage
-														src="https://github.com/shadcn.png"
+														className="
+													w-full h-full object-cover block
+													"
+														src={emp.avatar}
 														alt="@shadcn"
 													/>
 													<AvatarFallback>CN</AvatarFallback>
 												</Avatar>
 												<div className="flex flex-col ">
 													<p className="font-semibold">
-														{emp.firstName} {emp.lastName}
+														{emp.first_name} {emp.last_name}
 													</p>
 													<p className="text-sm text-muted-foreground">
-														{emp.location}
+														{emp.branch}
 													</p>
 													<p className="text-sm">
 														Birthday: {birthDateFormatted}
@@ -353,9 +246,9 @@ export default function HomePage({
 													<X className="h-4 w-4" />
 												</Button>
 											</div>
-											<p>Name: {emp.firstName}</p>
-											<p>Surname: {emp.lastName}</p>
-											<p>Location: {emp.location}</p>
+											<p>Name: {emp.first_name}</p>
+											<p>Surname: {emp.last_name}</p>
+											<p>Location: {emp.branch}</p>
 											<p>Birthday: {birthDateFormatted}</p>
 										</PopoverContent>
 									</Popover>
@@ -400,23 +293,23 @@ export default function HomePage({
 							<Table className="table-fixed">
 								<TableBody>
 									{filteredEmployees?.length > 0 ? (
-										filteredEmployees?.map((emp) => {
+										filteredEmployees?.map((emp, index) => {
 											return (
-												<TableRow key={emp.id}>
+												<TableRow key={`${emp.employee_id} ${index}`}>
 													<TableCell className="w-16 font-medium">
-														{emp.id}
+														{emp.user_id}
 													</TableCell>
 													<TableCell className="w-40 text-center">
-														{emp.firstName}
+														{emp.first_name}
 													</TableCell>
 													<TableCell className="w-40 text-center">
-														{emp.lastName}
+														{emp.last_name}
 													</TableCell>
 													<TableCell className="w-40 text-center">
-														{emp.location}
+														{emp.branch}
 													</TableCell>
 													<TableCell className="w-32 text-right">
-														{emp.birthDate}
+														{emp.birth_date}
 													</TableCell>
 												</TableRow>
 											);
