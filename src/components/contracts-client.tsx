@@ -453,7 +453,12 @@ export default function Contracts_Page({
 												</Button>
 											</div>
 											<p>Name: {contract.first_name}</p>
-											<p>Duration: {contract.durationMonths}</p>
+											<p>
+												Position: {contract.organization_name}{" "}
+												{contract.job_level}
+											</p>
+											<p>Email: {contract.email}</p>
+											<p>Phone: {contract.mobile_phone}</p>
 											<p>
 												Start Date:{" "}
 												{new Date(contract.join_date).toLocaleDateString()}
@@ -489,9 +494,12 @@ export default function Contracts_Page({
 					<div className="flex min-h-0 flex-1 flex-col">
 						<Table>
 							<TableHeader>
-								<TableRow>
+								<TableRow className="sticky top-0 bg-black">
 									<TableHead className="w-1/5 px-4 pl-1 py-3 text-left">
 										Employee Name
+									</TableHead>
+									<TableHead className="w-1/5 px-4 pl-1 py-3 text-center">
+										Department
 									</TableHead>
 									<TableHead className="w-1/5 px-4 py-3 text-center">
 										Duration (months)
@@ -511,71 +519,75 @@ export default function Contracts_Page({
 									</TableHead>
 								</TableRow>
 							</TableHeader>
-									{/* <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]"> */}
+							{/* <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]"> */}
 
-								<TableBody>
-									{filteredConts?.length > 0 ? (
-										filteredConts.map((contract) => {
-											const today = new Date();
-											const endDate = new Date(contract.end_date);
+							<TableBody>
+								{filteredConts?.length > 0 ? (
+									filteredConts.map((contract) => {
+										const today = new Date();
+										const endDate = new Date(contract.end_date);
 
-											// difference in days between dates
+										// difference in days between dates
 
-											const diffDays = Math.ceil(
-												(endDate.getTime() - today.getTime()) /
-													(1000 * 60 * 60 * 24)
-											);
+										const diffDays = Math.ceil(
+											(endDate.getTime() - today.getTime()) /
+												(1000 * 60 * 60 * 24)
+										);
 
-											// if the contract ended we give a 0 number
-											const remainingDays = diffDays > 0 ? diffDays : 0;
+										// if the contract ended we give a 0 number
+										const remainingDays = diffDays > 0 ? diffDays : 0;
 
-											const startDateFormatted = new Date(
-												contract.join_date
-											).toLocaleDateString();
-											const endDateFormatted = new Date(
-												contract.end_date
-											).toLocaleDateString();
+										const startDateFormatted = new Date(
+											contract.join_date
+										).toLocaleDateString();
+										const endDateFormatted = new Date(
+											contract.end_date
+										).toLocaleDateString();
 
-											return (
-												<TableRow key={contract.user_id}>
-													<TableCell>
-														{contract.job_level !== "Staff" && contract.job_level !=="Non Staff" ? (
-															<Badge variant="destructive">
-																{contract.first_name}
-															</Badge>
-														) : (
-															contract.first_name
-														)}
-													</TableCell>
+										return (
+											<TableRow key={contract.user_id}>
+												<TableCell>
+													{contract.job_level !== "Staff" &&
+													contract.job_level !== "Non Staff" ? (
+														<Badge variant="destructive">
+															{contract.first_name}
+														</Badge>
+													) : (
+														contract.first_name
+													)}
+												</TableCell>
 
-													<TableCell className="text-center">
-														{Number.isNaN(contract.durationMonths)
-															? "Untouchable"
-															: contract.durationMonths}
-													</TableCell>
+												<TableCell className="text-center">
+													{contract.organization_name}
+												</TableCell>
+												<TableCell className="text-center">
+													{Number.isNaN(contract.durationMonths)
+														? "Untouchable"
+														: contract.durationMonths}
+												</TableCell>
 
-													<TableCell className="text-center">
-														{remainingDays}
-													</TableCell>
+												<TableCell className="text-center">
+													{remainingDays}
+												</TableCell>
 
-													<TableCell className="text-center">
-														{startDateFormatted}
-													</TableCell>
+												<TableCell className="text-center">
+													{startDateFormatted}
+												</TableCell>
 
-													<TableCell className="text-center">
-														{endDateFormatted}
-													</TableCell>
+												<TableCell className="text-center">
+													{endDateFormatted}
+												</TableCell>
 
-													<TableCell className="text-right">
-														{contract.branch}
-													</TableCell>
-												</TableRow>
-											);
-										})
-									) : (
-										<></>
-									)}
-								</TableBody>
+												<TableCell className="text-right">
+													{contract.branch}
+												</TableCell>
+											</TableRow>
+										);
+									})
+								) : (
+									<></>
+								)}
+							</TableBody>
 							{/* </div> */}
 						</Table>
 					</div>

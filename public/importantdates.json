@@ -2,21 +2,21 @@
 	{
 		"type": "holiday",
 		"name": "Indonesia Independence Day",
-		"date": "2025-08-17"
+		"date": "1945-08-17"
 	},
 	{
 		"type": "birthday",
 		"name": "Mateusz's Birthday",
-		"date": "1996-02-14"
+		"date": "1987-04-04"
 	},
 	{
 		"type": "birthday",
 		"name": "Bartek's Birthday",
-		"date": "1994-06-03"
+		"date": "1979-04-26"
 	},
 	{
 		"type": "birthday",
 		"name": "Abdallah's Birthday",
-		"date": "1992-11-27"
+		"date": "1994-09-06"
 	}
 ]
