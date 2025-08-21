@@ -176,12 +176,18 @@ type Employee = {
 
 export default function HomePage({
 	initialEmployees,
+	newData
 }: {
 	initialEmployees: Employee[];
+	newData?: any[]
 }) {
-	const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
+	const [employees, setEmployees] = useState<any[]>(initialEmployees);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
+
+	useEffect(() => {
+		console.log("initialEmployees", newData);
+	}, [newData]);
 
 	// destructuring a setTheme from useTheme hook
 	const { setTheme } = useTheme();

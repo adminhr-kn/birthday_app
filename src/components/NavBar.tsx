@@ -35,9 +35,9 @@ export default function NavBar() {
 
 				<NavigationMenuItem>
 					<NavigationMenuLink
-						className={linkStyle("/fetched_data/emp_contracts")}
+						className={linkStyle("/emp_contracts")}
 						asChild>
-						<Link href="/fetched_data/emp_contracts" passHref>
+						<Link href="/emp_contracts" passHref>
 							Employee Contracts
 						</Link>
 					</NavigationMenuLink>
