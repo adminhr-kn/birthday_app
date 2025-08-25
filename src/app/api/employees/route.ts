@@ -10,7 +10,7 @@ const MEKARI_BASE_URL = "https://api.mekari.com";
 
 // we need to generate it, so then we can pass it to the get function
 function generateHmacHeaders(method: string, pathWithQuery: string) {
-	// dateTime rquired from the API
+	// dateTime rquired for the API
 	const datetime = new Date().toUTCString();
 
 	// where we are trying to send our request and with what method(post/get)
@@ -61,7 +61,7 @@ export async function GET() {
 		let pagesLeft = 1;
 		let employees = <any>[];
 		let pagination = <any>[];
-        // 1 page we are on
+		// 1 page we are on
 		let page = 1;
 		while (pagesLeft > 0) {
 			// we create the query string with the params we created
@@ -91,7 +91,7 @@ export async function GET() {
 			// we change the data to json type and return it
 			const data = await res.json();
 
-            console.log(data);
+			console.log(data);
 			// if we are on the last page, we stop
 			// there is no more data to fetch
 			if (data.data.pagination.last_page === page) {
@@ -104,9 +104,9 @@ export async function GET() {
 				pagesLeft = data.data.pagination.last_page;
 			}
 			// we combine the employees fetched with the previous ones
-            // we add to employees the things we fetched 
+			// we add to employees the things we fetched
 			employees = [...employees, ...data.data.employees];
-            // we get the pagination to show nhow much more
+			// we get the pagination to show nhow much more
 			pagination = data.data.pagination;
 		}
 
