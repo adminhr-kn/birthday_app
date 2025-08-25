@@ -87,6 +87,8 @@ export default function Contracts_Page({
 }: {
 	contracts: Contract[];
 }) {
+	const [APIdatafetcher, setAPIdata] = useState<Contract[]>();
+
 	const [contract, setContract] = useState<Contract[]>(contracts);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
@@ -146,9 +148,9 @@ export default function Contracts_Page({
 					: true) &&
 				(filters.endDate.to
 					? //if we have a date we have to check if its before the ending contract date
-					  new Date(x.end_date) < new Date(filters.endDate.to || new Date()) &&
-					  // and after the starting contract date
-					  new Date(x.end_date) > new Date(filters.endDate.from || new Date())
+						new Date(x.end_date) < new Date(filters.endDate.to || new Date()) &&
+						// and after the starting contract date
+						new Date(x.end_date) > new Date(filters.endDate.from || new Date())
 					: true) &&
 				(filters.monthDuration
 					? x.durationMonths === filters.monthDuration
@@ -483,6 +485,53 @@ export default function Contracts_Page({
 
 			{/* LIST OF ALL EMPLOYEES AND THEIR CONTRACTS! */}
 			<Card className="hidden lg:flex lg:flex-col w-3/4 shadow-lg h-full">
+				<Button
+					onClick={async () => {
+						let differenceInDays: Contract[] = [];
+						const today = new Date();
+
+						if (filteredConts?.length > 0) {
+							filteredConts.map((conts) => {
+								const endDate = new Date(conts.end_date);
+
+								const diffDays = Math.ceil(
+									(endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+								);
+
+								diffDays > 0 && diffDays < 30
+									? differenceInDays.push(conts)
+									: null;
+							});
+
+							console.log(differenceInDays);
+
+							// sending the data to APIdatafetcher
+							setAPIdata(differenceInDays);
+
+							try {
+								const res = await fetch("/api/messages", {
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json",
+									},
+									body: JSON.stringify({ contracts: differenceInDays }),
+								});
+
+								const data = await res.json();
+								console.log("API response:", data);
+								if (res.ok) {
+									console.log("✅ Email sent!");
+								} else {
+									console.error("❌ Email error:", data);
+								}
+							} catch (error) {
+								console.error("Error while sending email:", error);
+							}
+						}
+					}}>
+					BZZ
+				</Button>
+
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
 					<CardDescription>
