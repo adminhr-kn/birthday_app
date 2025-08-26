@@ -87,8 +87,6 @@ export default function Contracts_Page({
 }: {
 	contracts: Contract[];
 }) {
-	const [APIdatafetcher, setAPIdata] = useState<Contract[]>();
-
 	const [contract, setContract] = useState<Contract[]>(contracts);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
@@ -505,9 +503,6 @@ export default function Contracts_Page({
 
 							console.log(differenceInDays);
 
-							// sending the data to APIdatafetcher
-							setAPIdata(differenceInDays);
-
 							try {
 								const res = await fetch("/api/messages", {
 									method: "POST",
@@ -518,6 +513,8 @@ export default function Contracts_Page({
 								});
 
 								const data = await res.json();
+
+								
 								console.log("API response:", data);
 								if (res.ok) {
 									console.log("✅ Email sent!");
