@@ -70,6 +70,11 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
 
+	const actualDate = new Date();
+	const actualDatesMonth = actualDate.getMonth() + 1;
+	console.log(actualDatesMonth + " POOOOTIS");
+	const [monthsv2, setMonthsv2] = useState(actualDatesMonth);
+
 	// newData is API from Talenta, fetched
 	useEffect(() => {
 		console.log("initialEmployees", newData);
@@ -96,30 +101,37 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 	);
 
 	// filtering employees whose birthday is in the next month
-	const filteredEmployeesBirthDayLessThanMont = employees?.filter((emp) => {
-		const matchesSearch =
-			`${emp.user_id} ${emp.first_name} ${emp.last_name} ${emp.branch} ${emp.birth_date} ${emp.email} ${emp.gender}  ${emp.avatar} ${emp.job_level}`
-				.toLowerCase()
-				.includes(search.toLowerCase()) &&
-			!emp.email.includes("resign.") &&
-			(emp.resign_date === "" || emp.resign_date === null);
+	// filter creates new array, if true smth is in the arrayif false then not
+	// sort sorts things out
+	const filteredEmployeesBirthDayLessThanMont = employees
+		?.filter((emp) => {
+			const matchesSearch =
+				`${emp.user_id} ${emp.first_name} ${emp.last_name} ${emp.branch} ${emp.birth_date} ${emp.email} ${emp.gender}  ${emp.avatar} ${emp.job_level}`
+					.toLowerCase()
+					.includes(search.toLowerCase()) &&
+				!emp.email.includes("resign.") &&
+				(emp.resign_date === "" || emp.resign_date === null);
 
-		if (!matchesSearch) return false;
+			if (!matchesSearch) return false;
 
-		// checking birthday in a month
-		const birthDate = new Date(emp.birth_date);
-		const currentDate = new Date();
+			const birthDatesArray = [];
 
-		const changeInMonths = months;
+			// checking birthday in a month
+			const birthDate = new Date(emp.birth_date);
+			const currentDate = new Date();
 
-		const birthMonth = birthDate.getMonth();
+			const monthwerelookingfor = monthsv2;
 
-		const currentMonth = currentDate.getMonth();
+			const birthMonth = birthDate.getMonth();
 
-		const monthDiff = (birthMonth - currentMonth + 12) % 12;
-
-		return monthDiff === changeInMonths;
-	});
+			return birthMonth == monthwerelookingfor - 1;
+		})
+		?.sort((a, b) => {
+			// sorting by day of month
+			const dateA = new Date(a.birth_date).getDate();
+			const dateB = new Date(b.birth_date).getDate();
+			return dateA - dateB; // going up
+		});
 
 	return (
 		<main className="flex flex-col lg:flex-row flex-1 min-h-0 w-full p-4 lg:p-6 gap-4 lg:gap-6 bg-background text-foreground">
@@ -156,25 +168,35 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 						A list of people whose birthday is in the selected month
 					</div>
 
-					<Select
-						defaultValue="1"
-						onValueChange={(value) => {
-							console.log("Chosen:", value, "=> as a number:", Number(value));
-							setMonths(Number(value));
-						}}>
-						<SelectTrigger>
-							<SelectValue placeholder="Show users with birthdays in..." />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectLabel>Months</SelectLabel>
-								<SelectItem value="1">In 1 month (default)</SelectItem>
-								<SelectItem value="2">In 2 months</SelectItem>
-								<SelectItem value="3">In 3 months</SelectItem>
-								<SelectItem value="6">In 6 months</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select>
+					<div className="flex gap-3">
+						<Select
+							defaultValue={monthsv2.toString()}
+							onValueChange={(value) => {
+								console.log("Chosen:", value, "=> as a number:", Number(value));
+								setMonthsv2(Number(value));
+							}}>
+							<SelectTrigger>
+								<SelectValue placeholder="Show users with birthdays in..." />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectGroup>
+									<SelectLabel>Months</SelectLabel>
+									<SelectItem value="1">January</SelectItem>
+									<SelectItem value="2">February</SelectItem>
+									<SelectItem value="3">March</SelectItem>
+									<SelectItem value="4">April</SelectItem>
+									<SelectItem value="5">May</SelectItem>
+									<SelectItem value="6">June</SelectItem>
+									<SelectItem value="7">July</SelectItem>
+									<SelectItem value="8">August</SelectItem>
+									<SelectItem value="9">September</SelectItem>
+									<SelectItem value="10">October</SelectItem>
+									<SelectItem value="11">November</SelectItem>
+									<SelectItem value="12">December</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
+					</div>
 				</CardHeader>
 
 				<CardContent className="flex flex-col gap-4 min-w-0 overflow-hidden flex-1 ">
