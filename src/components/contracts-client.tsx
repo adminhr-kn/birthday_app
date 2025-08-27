@@ -483,7 +483,7 @@ export default function Contracts_Page({
 
 			{/* LIST OF ALL EMPLOYEES AND THEIR CONTRACTS! */}
 			<Card className="hidden lg:flex lg:flex-col w-3/4 shadow-lg h-full">
-				<Button
+				{/* <Button
 					onClick={async () => {
 						let differenceInDays: Contract[] = [];
 						const today = new Date();
@@ -527,7 +527,7 @@ export default function Contracts_Page({
 						}
 					}}>
 					BZZ
-				</Button>
+				</Button> */}
 
 				<CardHeader className="space-y-2">
 					<CardTitle>Employee List</CardTitle>
