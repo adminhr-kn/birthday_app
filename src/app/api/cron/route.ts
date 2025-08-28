@@ -35,7 +35,7 @@ export async function GET() {
 				(endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
 			);
 
-			diffDays > 0 && (diffDays === 3 || diffDays === 14)
+			diffDays > 0 && (diffDays === 30 || diffDays === 14)
 				? differenceInDays.push(conts)
 				: null;
 		});
