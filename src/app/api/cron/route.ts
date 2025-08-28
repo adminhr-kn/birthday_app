@@ -1,9 +1,12 @@
 import { Contract } from "@/types/contracts";
 export async function GET() {
 	// getting all the info about employees from the api
-	const apiRes = await fetch("http://localhost:3000/api/employees", {
-		cache: "no-store",
-	});
+	const apiRes = await fetch(
+		"http://birthday-app-chi-indol.vercel.app/api/employees",
+		{
+			cache: "no-store",
+		}
+	);
 
 	// adding duration to the contracts
 	const newData: Contract[] = await apiRes.json();
