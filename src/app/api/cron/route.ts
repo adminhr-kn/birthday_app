@@ -45,13 +45,16 @@ export async function GET() {
 		// trying 2 send the data to api/messages
 		try {
 			if (differenceInDays) {
-				const res = await fetch("/api/messages", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ contracts: differenceInDays }),
-				});
+				const res = await fetch(
+					"http://birthday-app-chi-indol.vercel.app/api/messages",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ contracts: differenceInDays }),
+					}
+				);
 
 				const data = await res.json();
 
