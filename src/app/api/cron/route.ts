@@ -1,4 +1,5 @@
 import { Contract } from "@/types/contracts";
+import { NextResponse } from "next/server";
 export async function GET() {
 	// getting all the info about employees from the api
 	const apiRes = await fetch(
@@ -41,29 +42,34 @@ export async function GET() {
 
 		console.log(differenceInDays);
 
-		if (differenceInDays) {
-			
-			// trying 2 send the data to api/messages
-			try {
+		// trying 2 send the data to api/messages
+		try {
+			if (differenceInDays) {
 				const res = await fetch("/api/messages", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
-				body: JSON.stringify({ contracts: differenceInDays }),
-			});
-			
-			const data = await res.json();
-			
-			console.log("API response:", data);
-			if (res.ok) {
-				console.log("✅ Email sent!");
-			} else {
-				console.error("❌ Email error:", data);
+					body: JSON.stringify({ contracts: differenceInDays }),
+				});
+
+				const data = await res.json();
+
+				console.log("API response:", data);
+				if (res.ok) {
+					console.log("✅ Email sent!");
+					return Response.json({ message: "Email sent!", status: 200 });
+				} else {
+					console.error("❌ Email error:", data);
+					return Response.json({ message: "Email error!", status: 500 });
+				}
 			}
 		} catch (error) {
 			console.error("Error while sending email:", error);
+			return Response.json({
+				message: "Error while sending email!",
+				status: 500,
+			});
 		}
 	}
-}
 }
