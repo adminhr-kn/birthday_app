@@ -6,6 +6,7 @@ import { Contract } from "@/types/contracts";
 export default async function Fetching() {
 	// Fetching Data from API,
 	// cache: "no-store" means that the data will not be cached and will be fetched fresh every time
+
 	const fetched_data = await fetch(
 		"https://birthday-app-chi-indol.vercel.app/contracts.json",
 		{
@@ -31,7 +32,9 @@ export default async function Fetching() {
 	const newDataWithDuration: Contract[] = newData.map(
 		// duration in months from calculating end_date - join_date
 
+
 		// we also calculate the remainingDays
+
 		(contract: Contract) => {
 			const duration = Math.floor(
 				(new Date(contract.end_date).getTime() -
@@ -43,12 +46,14 @@ export default async function Fetching() {
 			// if the contract ended we give a 0 number
 			const durationDaysLeft = Math.ceil(
 				(new Date(contract.end_date).getTime() - today.getTime()) /
-					(1000 * 60 * 60 * 24)
+
+				(1000 * 60 * 60 * 24)
 			);
 			// we calculate and keep in remainingDays
 			const remainingDays = durationDaysLeft > 0 ? durationDaysLeft : 0;
 
 			// we add it to the contract
+
 			return {
 				...contract,
 				durationMonths: duration,
