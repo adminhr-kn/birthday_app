@@ -41,21 +41,20 @@ export async function GET() {
 
 		console.log(differenceInDays);
 
-		if (!differenceInDays) {
-			return;
-		}
-		// trying 2 send the data to api/messages
-		try {
-			const res = await fetch("/api/messages", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+		if (differenceInDays) {
+			
+			// trying 2 send the data to api/messages
+			try {
+				const res = await fetch("/api/messages", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
 				body: JSON.stringify({ contracts: differenceInDays }),
 			});
-
+			
 			const data = await res.json();
-
+			
 			console.log("API response:", data);
 			if (res.ok) {
 				console.log("✅ Email sent!");
@@ -66,4 +65,5 @@ export async function GET() {
 			console.error("Error while sending email:", error);
 		}
 	}
+}
 }
