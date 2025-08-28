@@ -6,11 +6,11 @@ import { Contract } from "@/types/contracts";
 export default async function Fetching() {
 	// Fetching Data from API,
 	// cache: "no-store" means that the data will not be cached and will be fetched fresh every time
-	const fetched_data = await fetch("http://localhost:3000/contracts.json", {
+	const fetched_data = await fetch("http://birthday-app-chi-indol.vercel.app/contracts.json", {
 		cache: "no-store",
 	});
 
-	const apiRes = await fetch("http://localhost:3000/api/employees", {
+	const apiRes = await fetch("http://birthday-app-chi-indol.vercel.app/api/employees", {
 		cache: "no-store",
 	});
 
