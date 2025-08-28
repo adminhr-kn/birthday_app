@@ -1,9 +1,9 @@
 import crypto from "crypto";
 
 // client id from the site
-const MEKARI_CLIENT_ID = "REMOVED";
+const MEKARI_CLIENT_ID = process.env.MEKARI_CLIENT_ID || "";
 // secret our key
-const MEKARI_CLIENT_SECRET = "REMOVED";
+const MEKARI_CLIENT_SECRET = process.env.MEKARI_CLIENT_SECRET || "";
 
 // the url we are taking stuff from
 const MEKARI_BASE_URL = "https://api.mekari.com";
