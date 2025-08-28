@@ -1,12 +1,11 @@
 import { Contract } from "@/types/contracts";
 export async function GET() {
-
 	// getting all the info about employees from the api
 	const apiRes = await fetch("http://localhost:3000/api/employees", {
 		cache: "no-store",
 	});
 
-    // adding duration to the contracts
+	// adding duration to the contracts
 	const newData: Contract[] = await apiRes.json();
 	const contracts: Contract[] = newData.map(
 		// duration in months from calculating end_date - join_date
@@ -21,7 +20,7 @@ export async function GET() {
 		}
 	);
 
-    // doing the filtration
+	// doing the filtration
 	let differenceInDays: Contract[] = [];
 	const today = new Date();
 	if (contracts?.length > 0) {
@@ -32,12 +31,17 @@ export async function GET() {
 				(endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
 			);
 
-			diffDays > 0 && diffDays < 30 ? differenceInDays.push(conts) : null;
+			diffDays > 0 && (diffDays === 3 || diffDays === 14)
+				? differenceInDays.push(conts)
+				: null;
 		});
 
 		console.log(differenceInDays);
 
-        // trying 2 send the data to api/messages
+		if (!differenceInDays) {
+			return;
+		}
+		// trying 2 send the data to api/messages
 		try {
 			const res = await fetch("/api/messages", {
 				method: "POST",

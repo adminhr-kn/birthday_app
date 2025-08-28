@@ -43,7 +43,7 @@ export default function RootLayout({
 					<div className="ml-[24px]">
 						<PoppingImportantDates />
 					</div>
-					{/* flex-1 says take all the space that is left (navbar has his own height and popping also, ex if navbar and poppoing are 100px bith and the screen is 900px children will take 800px), fkex col yeah also vertical. min-h-0 means you can cut your height given by the flexbox  */}
+					{/* flex-1 says take all the space that is left (navbar has his own height and popping also, ex if navbar and poppoing are 100px both and the screen is 900px children will take 800px), flex col yeah also vertical. min-h-0 means you can cut your height given by the flexbox  */}
 					<div className="flex-1 flex flex-col min-h-0">{children}</div>
 				</ThemeProvider>
 			</body>
