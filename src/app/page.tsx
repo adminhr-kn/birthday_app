@@ -3,11 +3,13 @@ import { Employee } from "@/types/employee";
 
 export default async function Page() {
 	const res = await fetch(
-		"http://birthday-app-chi-indol.vercel.app/users.json",
+
+		"https://birthday-app-chi-indol.vercel.app/users.json",
 		{ cache: "no-store" }
 	);
 	const apiRes = await fetch(
-		"http://birthday-app-chi-indol.vercel.app/api/employees",
+		"https://birthday-app-chi-indol.vercel.app/api/employees",
+
 		{
 			cache: "no-store",
 		}
