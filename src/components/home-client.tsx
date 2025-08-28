@@ -68,7 +68,6 @@ type Employee = {
 export default function HomePage({ newData }: { newData: Employee[] }) {
 	const [employees, setEmployees] = useState<Employee[]>(newData);
 	const [search, setSearch] = useState("");
-	const [months, setMonths] = useState(1);
 
 	const actualDate = new Date();
 	const actualDatesMonth = actualDate.getMonth() + 1;

@@ -13,6 +13,7 @@ export type Contract = {
 	durationMonths?: number;
 	organization_name: string;
 	mobile_phone:string;
+	durationDaysLeft:number;
 };
 
 /*

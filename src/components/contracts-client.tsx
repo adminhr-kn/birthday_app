@@ -131,6 +131,7 @@ export default function Contracts_Page({
 	console.log(filters);
 
 	const [filteredConts, setFilteredConts] = useState(contracts);
+
 	// when our filters change we do a filtration
 	useEffect(() => {
 		const result = contract.filter(
@@ -157,7 +158,15 @@ export default function Contracts_Page({
 				(x.resign_date === "" || x.resign_date === null)
 		);
 		console.log("Filtered Contracts:", result);
-		setFilteredConts(result);
+		// if smth changes we change the filteredConts, and sort it by the durationDaysLeft
+		setFilteredConts(
+			[...result].sort((a, b) => {
+				const diffA = a.durationDaysLeft;
+				const diffB = b.durationDaysLeft;
+
+				return diffA - diffB;
+			})
+		);
 	}, [filters]);
 
 	return (
