@@ -194,14 +194,13 @@ export default function Contracts_Page({
 			</DropdownMenu>
 
 			<Card className="flex flex-col w-full lg:w-1/2 shadow-lg h-full min-w-0">
-				<CardHeader className="space-y-2">
+				<CardHeader className="space-y-1">
 					<CardTitle>Birthday App</CardTitle>
 					<CardDescription>
-						Search for a contract by an employee's name, surname, location, or
-						the contract's duration. You can also search by date
+						Search for a contract with filters.
 					</CardDescription>
 
-					<div className="flex items-center gap-4 flex-wrap">
+					<div className="flex items-center gap-2 flex-wrap">
 						<div className="flex flex-col gap-2">
 							<Label htmlFor="name">Name</Label>
 							<Input
