@@ -5,6 +5,18 @@ import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "@/components/NavBar";
 import PoppingImportantDates from "@/components/PopImportantDates";
 
+import {
+	ClerkProvider,
+	SignIn,
+	SignInButton,
+	SignUpButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+} from "@clerk/nextjs";
+
+import "./globals.css";
+
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -26,28 +38,39 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		// body needs smth to refer, h-full to be precise
-		<html lang="en" suppressHydrationWarning className="h-full">
-			<body
-				// body always is 100% height so the same as html, min-height 100vh always at least all the screen, if more content it grows
-				// flex so they become a flex container vertically children of body are going one after another, they can share space with flex-1 etc
-				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full min-h-screen flex flex-col`}>
-				<ThemeProvider
-					// attribute tells to save the theme in the class attribute (document.documentElement) which is <html> element!
-					// to powoduje ze zmiana w setterze zmienia kolor strony
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange>
-					<NavBar />
-					<div className="ml-[24px]">
-						<PoppingImportantDates />
-					</div>
-					{/* flex-1 says take all the space that is left (navbar has his own height and popping also, ex if navbar and poppoing are 100px both and the screen is 900px children will take 800px), flex col yeah also vertical. min-h-0 means you can cut your height given by the flexbox  */}
-					<div className="flex-1 flex flex-col min-h-0">{children}</div>
-				</ThemeProvider>
-			</body>
-		</html>
+		<ClerkProvider>
+			{/* // body needs smth to refer, h-full to be precise */}
+			<html lang="en" suppressHydrationWarning className="h-full">
+				<body
+					// body always is 100% height so the same as html, min-height 100vh always at least all the screen, if more content it grows
+					// flex so they become a flex container vertically children of body are going one after another, they can share space with flex-1 etc
+					className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full min-h-screen flex flex-col`}>
+					<ThemeProvider
+						// attribute tells to save the theme in the class attribute (document.documentElement) which is <html> element!
+						// to powoduje ze zmiana w setterze zmienia kolor strony
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange>
+
+						<SignedOut>
+							<div className="flex flex-col items-center justify-center h-full ">
+								<SignIn routing="hash" />
+							</div>
+						</SignedOut>
+
+						<SignedIn>
+							<NavBar />
+							<div className="ml-[24px]">
+								<PoppingImportantDates />
+							</div>
+							{/* flex-1 says take all the space that is left (navbar has his own height and popping also, ex if navbar and poppoing are 100px both and the screen is 900px children will take 800px), flex col yeah also vertical. min-h-0 means you can cut your height given by the flexbox  */}
+							<div className="flex-1 flex flex-col min-h-0">{children}</div>
+						</SignedIn>
+					</ThemeProvider>
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }
 

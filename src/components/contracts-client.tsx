@@ -65,6 +65,7 @@ import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
 import { getDate, set } from "date-fns";
 import { Contract } from "@/types/contracts";
+import { checkRole } from "@/utils/role";
 // type Contract = {
 // 	id: number;
 // 	employeeName: string;
@@ -87,6 +88,7 @@ export default function Contracts_Page({
 }: {
 	contracts: Contract[];
 }) {
+	
 	const [contract, setContract] = useState<Contract[]>(contracts);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
