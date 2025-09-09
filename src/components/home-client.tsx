@@ -63,6 +63,7 @@ type Employee = {
 	birth_date: string;
 	employee_id: string;
 	resign_date: string;
+	mobile_phone: string;
 };
 
 export default function HomePage({ newData }: { newData: Employee[] }) {
@@ -269,6 +270,8 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 											</div>
 											<p>Name: {emp.first_name}</p>
 											<p>Surname: {emp.last_name}</p>
+											<p>Email: {emp.email}</p>
+											<p>Phone: {emp.mobile_phone}</p>
 											<p>Location: {emp.branch}</p>
 											<p>Birthday: {birthDateFormatted}</p>
 										</PopoverContent>

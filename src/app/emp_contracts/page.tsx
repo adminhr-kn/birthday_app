@@ -1,11 +1,15 @@
 import Contracts_Page from "@/components/contracts-client";
 import HomeClient from "@/components/home-client";
+import { redirect } from "next/navigation";
 
 import { Contract } from "@/types/contracts";
+import { checkRole } from "@/utils/role";
 
 export default async function Fetching() {
 	// Fetching Data from API,
 	// cache: "no-store" means that the data will not be cached and will be fetched fresh every time
+
+	// EVERYWHERE IT HAS TO BE AN HTTPS! IF IT WILL BE AN HTTP IT WILL WORK FOR SOME TIME BUT THEN THE WHOLE APP WILL CRASH
 
 	const fetched_data = await fetch(
 		"https://birthday-app-chi-indol.vercel.app/contracts.json",
@@ -20,6 +24,10 @@ export default async function Fetching() {
 			cache: "no-store",
 		}
 	);
+
+	if ((await checkRole("admin")) === false) {
+		redirect("/");
+	}
 
 	// Parsing the data to JSON format
 	// and storing it in a variable called data
