@@ -38,6 +38,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
+		// we get the clerkProvider so the user will have to log in
 		<ClerkProvider>
 			{/* // body needs smth to refer, h-full to be precise */}
 			<html lang="en" suppressHydrationWarning className="h-full">
@@ -52,13 +53,14 @@ export default function RootLayout({
 						defaultTheme="system"
 						enableSystem
 						disableTransitionOnChange>
-
+						{/* when the user is signedOut, redirect him to sign in page */}
 						<SignedOut>
 							<div className="flex flex-col items-center justify-center h-full ">
 								<SignIn routing="hash" />
 							</div>
 						</SignedOut>
 
+						{/* when the user is signedIn show him the app */}
 						<SignedIn>
 							<NavBar />
 							<div className="ml-[24px]">

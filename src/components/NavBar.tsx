@@ -42,6 +42,16 @@ export default function NavBar() {
 						</Link>
 					</NavigationMenuLink>
 				</NavigationMenuItem>
+
+				<NavigationMenuItem>
+					<NavigationMenuLink
+						className={linkStyle("/emp_contracts")}
+						asChild>
+						<Link href="/admin" passHref>
+							Admin site
+						</Link>
+					</NavigationMenuLink>
+				</NavigationMenuItem>
 			</NavigationMenuList>
 		</NavigationMenu>
 
