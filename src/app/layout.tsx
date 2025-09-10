@@ -49,7 +49,7 @@ export default function RootLayout({
 			<html lang="en" suppressHydrationWarning className="h-full">
 				<body
 					// body always is 100% height so the same as html, min-height 100vh always at least all the screen, if more content it grows
-					className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full min-h-screen flex flex-col`}>
+					className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground h-full min-h-screen flex flex-col `}>
 					<ThemeProvider
 						// attribute tells to save the theme in the class attribute (document.documentElement) which is <html> element!
 						// to powoduje ze zmiana w setterze zmienia kolor strony
@@ -58,7 +58,7 @@ export default function RootLayout({
 						enableSystem
 						disableTransitionOnChange>
 						<NavBar />
-						<div className="ml-[24px] inline-block ">
+						<div className="ml-[24px] ">
 							<PoppingImportantDates />
 							
 						</div>
