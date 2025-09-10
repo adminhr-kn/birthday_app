@@ -7,7 +7,7 @@ export default async function Page() {
 	// 	"https://birthday-app-chi-indol.vercel.app/users.json",
 	// 	{ cache: "no-store" }
 	// );
-	// "https://birthday-app-chi-indol.vercel.app/api/employees",
+	// "https://birthday-app-chi-indol.vercel.app/api/employees"   ,
 	const apiRes = await fetch(
 		"https://birthday-app-chi-indol.vercel.app/api/employees",
 		{
