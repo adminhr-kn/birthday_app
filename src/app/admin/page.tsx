@@ -25,7 +25,7 @@ export default async function AdminDashboard(params: {
 	return (
 		<>
 			<div className="flex flex-col gap-3 justify-center lg:items-center lg:w-full lg:h-full  ">
-				<p>
+				<p className="text-center">
 					This is the protected admin dashboard restricted to users with the
 					`admin` role.
 				</p>
