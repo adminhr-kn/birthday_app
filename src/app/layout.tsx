@@ -16,6 +16,8 @@ import {
 	UserButton,
 } from "@clerk/nextjs";
 
+import LogOutButton  from "@/components/ui/LogOutButton";
+
 import "./globals.css";
 import { Button } from "@/components/ui/button";
 
@@ -56,9 +58,11 @@ export default function RootLayout({
 						enableSystem
 						disableTransitionOnChange>
 						<NavBar />
-						<div className="ml-[24px]">
+						<div className="ml-[24px] inline-block ">
 							<PoppingImportantDates />
+							
 						</div>
+						
 						{/* flex-1 says take all the space that is left (navbar has his own height and popping also, ex if navbar and poppoing are 100px both and the screen is 900px children will take 800px), flex col yeah also vertical. min-h-0 means you can cut your height given by the flexbox  */}
 						<div className="flex-1 flex flex-col min-h-0">{children}</div>
 					</ThemeProvider>

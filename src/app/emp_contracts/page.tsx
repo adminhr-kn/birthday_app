@@ -34,12 +34,11 @@ export default async function Fetching() {
 	// const data: Contract[] = await fetched_data.json();
 
 	const newData: Contract[] = await apiRes.json();
-	console.log(newData);
+	//console.log(newData);
 
 	// we add some additional things
 	const newDataWithDuration: Contract[] = newData.map(
 		// duration in months from calculating end_date - join_date
-
 
 		// we also calculate the remainingDays
 
@@ -54,8 +53,7 @@ export default async function Fetching() {
 			// if the contract ended we give a 0 number
 			const durationDaysLeft = Math.ceil(
 				(new Date(contract.end_date).getTime() - today.getTime()) /
-
-				(1000 * 60 * 60 * 24)
+					(1000 * 60 * 60 * 24)
 			);
 			// we calculate and keep in remainingDays
 			const remainingDays = durationDaysLeft > 0 ? durationDaysLeft : 0;
