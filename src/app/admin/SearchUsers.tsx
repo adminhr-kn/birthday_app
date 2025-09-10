@@ -27,7 +27,7 @@ export const SearchUsers = () => {
 	return (
 		<>
 			<div className="flex flex-col w-auto lg:flex-row lg:justify-between lg:mt-10 lg:p-4 lg:w-[70%]">
-				<div className=" flex flex-col text-white  mt-10 p-4  rounded-md border border-white">
+				<div className=" flex flex-col text-white ml-3 mr-3 mt-7 p-4  rounded-md border border-white">
 					<form
 						// on submit we can search 4 users
 						onSubmit={(e) => {
@@ -56,7 +56,7 @@ export const SearchUsers = () => {
 					</form>
 				</div>
 
-				<div className="flex flex-col mt-2 justify-center items-center lg:gap-2 lg:mt-4">
+				<div className="flex flex-col mt-2 justify-center items-center text-center lg:gap-2 lg:mt-4">
 					<p>A list of users</p>
 					{users.length > 0 ? (
 						<ul>

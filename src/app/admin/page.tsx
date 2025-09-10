@@ -25,7 +25,7 @@ export default async function AdminDashboard(params: {
 	return (
 		<>
 			<div className="flex flex-col gap-3 justify-center lg:items-center lg:w-full lg:h-full  ">
-				<p className="text-center">
+				<p className="text-center mt-3 ml-3 mr-3">
 					This is the protected admin dashboard restricted to users with the
 					`admin` role.
 				</p>
@@ -36,7 +36,7 @@ export default async function AdminDashboard(params: {
 					return (
 						<div
 							key={user.id}
-							className=" border border-white mt-4 lg:mt-10 p-4 rounded-md text-white">
+							className=" border border-white m-3 lg:mt-10 p-4 rounded-md text-white text-center">
 							<div key={user.id} className="flex flex-col gap-2">
 								<div>
 									{user.firstName} {user.lastName}
