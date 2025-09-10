@@ -33,16 +33,16 @@ export default function PoppingImportantDates() {
 	// we got rid of important dates, idea was basically not useful, instead we hib logout button
 	// checking etc stays for the future if needed and showing how to operate on such things
 	return (
-		<div className="flex flex-col w-[200px] gap-2">
+		<div className="flex flex-col gap-2">
 			<Popover>
 				{/* <PopoverTrigger asChild>
 					<Button>Important dates!</Button>
 				</PopoverTrigger> */}
 				<PopoverContent
-					align="start" 
-					sideOffset={8} 
+					align="start"
+					sideOffset={8}
 					className="w-auto max-w-xs p-4 flex flex-col gap-2">
-					{dates.length === 0 ? (
+					{/* {dates.length === 0 ? (
 						<div className="text-sm text-muted-foreground">Loading...</div>
 					) : (
 						<ul>
@@ -58,7 +58,7 @@ export default function PoppingImportantDates() {
 								// we make an event this year
 								let nextEvent = new Date(today.getFullYear(), month, day);
 
-								// if event has passed we set timer for a next year 
+								// if event has passed we set timer for a next year
 								if (nextEvent < today) {
 									nextEvent.setFullYear(nextEvent.getFullYear() + 1);
 								}
@@ -83,12 +83,14 @@ export default function PoppingImportantDates() {
 								);
 							})}
 						</ul>
-					)}
+					)} */}
 				</PopoverContent>
 
-				{/* we put log out button here so its after the important dates button */}
-				<LogOutButton className=" inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
 			</Popover>
+				
+					{/* we put log out button here so its after the important dates button */}
+					<LogOutButton className=" ml-0 sm:-ml-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
+				
 		</div>
 	);
 }

@@ -58,13 +58,15 @@ export default function RootLayout({
 						enableSystem
 						disableTransitionOnChange>
 						<NavBar />
-						<div className="ml-[24px] ">
+						<div className="ml-[15px] lg:ml-[40px] flex justify-start ">
 							<PoppingImportantDates />
 							
 						</div>
 						
 						{/* flex-1 says take all the space that is left (navbar has his own height and popping also, ex if navbar and poppoing are 100px both and the screen is 900px children will take 800px), flex col yeah also vertical. min-h-0 means you can cut your height given by the flexbox  */}
-						<div className="flex-1 flex flex-col min-h-0">{children}</div>
+						<div className="flex-1 flex flex-col min-h-0">
+							{children}
+							</div>
 					</ThemeProvider>
 				</body>
 			</html>
