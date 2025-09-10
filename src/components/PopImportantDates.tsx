@@ -58,7 +58,7 @@ export default function PoppingImportantDates() {
 								// we make an event this year
 								let nextEvent = new Date(today.getFullYear(), month, day);
 
-								// if event has passed we set timer for a next year
+								// if event has passed we set timer for a next year 
 								if (nextEvent < today) {
 									nextEvent.setFullYear(nextEvent.getFullYear() + 1);
 								}
