@@ -10,8 +10,10 @@ export default async function AdminDashboard(params: {
 	searchParams: Promise<{ search?: string }>;
 }) {
 	//redirect("/https://birthday-app-chi-indol.vercel.app/api/employees");
+
+	// reedirect("/localhost:3000");
 	if ((await checkRole("admin")) === false) {
-		redirect("localhost:3000");
+		redirect("/https://birthday-app-chi-indol.vercel.app/api/employees");
 	}
 
 	const query = (await params.searchParams).search;
