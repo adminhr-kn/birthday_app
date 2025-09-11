@@ -52,6 +52,7 @@ export default async function AdminDashboard(params: {
 
 								<div>{user.publicMetadata.role as string}</div>
 
+								{/* after clicking next.js will fire function setRole we send the info about id and role of a user */}
 								<form action={setRole}>
 									<input type="hidden" value={user.id} name="id" />
 									<input type="hidden" value="admin" name="role" />

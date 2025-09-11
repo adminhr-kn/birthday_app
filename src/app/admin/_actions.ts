@@ -4,7 +4,11 @@ import { checkRole } from "../../utils/role";
 
 import { clerkClient } from "@clerk/nextjs/server";
 
+// we take the data from the form 
+// the id and the role of a user
 export async function setRole(formData: FormData) {
+
+	// we connect with client
 	const client = await clerkClient();
 
 	// Check that the user trying to set the role is an admin
@@ -13,6 +17,7 @@ export async function setRole(formData: FormData) {
 	}
 
 	try {
+		//we update the user based on the id, change his role
 		const res = await client.users.updateUserMetadata(
 			formData.get("id") as string,
 			{

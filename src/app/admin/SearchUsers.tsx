@@ -31,10 +31,16 @@ export const SearchUsers = () => {
 					<form
 						// on submit we can search 4 users
 						onSubmit={(e) => {
+							// we dont do refresh of the page
 							e.preventDefault();
+							//we have access to all the infos in the form
 							const form = e.currentTarget;
+							//helper in js, gets all the inputs from the form
+							// and makes an object out of it key value, here search-> whatever user typed
 							const formData = new FormData(form);
+							//we take the value from the form data
 							const queryTerm = formData.get("search") as string;
+							// now we push it to the url
 							router.push(pathname + "?search=" + queryTerm);
 						}}>
 						<div className="flex flex-col gap-2">
