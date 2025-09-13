@@ -35,7 +35,7 @@ export default async function AdminDashboard(params: {
 						return (
 							<div
 								key={user.id}
-								className=" border border-white m-3 lg:max-h-[240px] lg:mt-10 p-4 rounded-md text-white text-center">
+								className=" border border-white m-3 lg:max-h-[240px] lg:w-[170px] lg:mt-10 p-4 rounded-md text-white text-center">
 								<div key={user.id} className="flex flex-col gap-2 text-center">
 									<div>
 										{user.firstName} {user.lastName}
