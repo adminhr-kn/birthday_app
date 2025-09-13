@@ -29,7 +29,7 @@ export async function setRole(formData: FormData) {
 		// return { message: err };
 	}
 }
-
+		{/* when we click on this button we will remove the role of a user, the form will set the removeRole function */}
 export async function removeRole(formData: FormData) {
 	const client = await clerkClient();
 
