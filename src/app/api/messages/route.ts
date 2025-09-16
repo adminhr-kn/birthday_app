@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 		// sending email to user
 		const { data, error } = await resend.emails.send({
 			from: "onboarding@resend.dev",
-			to: ["kodingstuff899@gmail.com", "nicholas@kodingnext.com"],
+			to: ["admin.hr@kodingnext.com"],
 			subject: "Hello world",
 			html: `
 				<h1>Contracts expiring soon</h1>
