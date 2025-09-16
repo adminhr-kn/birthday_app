@@ -1,5 +1,8 @@
 ### For this project to work youll need Keys that are in a .env.example file! ###
 
+also you need to follow these steps when it comes to clerk middleware: https://clerk.com/docs/references/nextjs/add-onboarding-flow.
+
+You need to expose the user metadata into the session claim. configure=>sessions
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
