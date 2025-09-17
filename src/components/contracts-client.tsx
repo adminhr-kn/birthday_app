@@ -604,7 +604,7 @@ export default function Contracts_Page({
 											<TableRow key={contract.user_id}>
 												<TableCell>
 													{contract.job_level !== "Staff" &&
-													contract.job_level !== "Non Staff" ? (
+													contract.job_level !== "Non Staff" && contract.job_level !== "Intern" ? (
 														<Badge variant="destructive">
 															{contract.first_name}
 														</Badge>
