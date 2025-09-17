@@ -550,7 +550,7 @@ export default function Contracts_Page({
 					<div className="flex min-h-0 flex-1 flex-col">
 						<Table>
 							<TableHeader>
-								<TableRow className="sticky top-0 bg-black">
+								<TableRow className="sticky top-0 pointer-events-none bg-background dark:bg-black">
 									<TableHead className="w-1/5 px-4 pl-1 py-3 text-left">
 										Employee Name
 									</TableHead>
