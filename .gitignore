@@ -10,6 +10,11 @@
 !.yarn/releases
 !.yarn/versions
 
+
+#MINE
+
+INFO_BRITHDAY_CONTRACTS_APP.txt
+
 # testing
 /coverage
 
