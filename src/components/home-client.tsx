@@ -77,12 +77,12 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 
 	// newData is API from Talenta, fetched
 	useEffect(() => {
-		console.log("initialEmployees", newData);
+	
 		// make new set from job_levels and console log
 		const job_levels = new Set(
 			newData.map((emp) => emp.job_level.toLowerCase())
 		);
-		console.log("job_levels", job_levels);
+	
 	}, [newData]);
 
 	// destructuring a setTheme from useTheme hook
