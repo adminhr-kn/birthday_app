@@ -48,7 +48,7 @@ export async function GET() {
 			if (differenceInDays) {
 				const res = await fetch(
 
-					"https://birthday-app-chi-indol.vercel.app/api/messages",
+					"https://knemployee.vercel.app/api/messages",
 
 					{
 						method: "POST",
