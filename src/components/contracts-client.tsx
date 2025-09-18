@@ -399,9 +399,9 @@ export default function Contracts_Page({
 					</div>
 				</CardHeader>
 
-				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden">
+				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden flex-1">
 					<ul
-						className=" flex flex-col space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 "
+						className=" flex flex-col flex-1 space-y-3  overflow-y-auto pr-2  "
 						onScroll={() => setisOpen(null)}>
 						{filteredConts?.length > 0 ? (
 							filteredConts.map((contract) => {

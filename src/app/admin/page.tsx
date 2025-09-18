@@ -18,7 +18,7 @@ export default async function AdminDashboard(params: {
 	searchParams: Promise<{ search?: string }>;
 }) {
 	if ((await checkRole("admin")) === false) {
-		redirect(`/https://birthday-app-chi-indol.vercel.app/api/employees`);
+		redirect(`https://birthday-app-chi-indol.vercel.app/api/employees`);
 	}
 
 	const query = (await params.searchParams).search;

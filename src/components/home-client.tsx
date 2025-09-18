@@ -213,7 +213,7 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 
 					{/* // closing when we scrolled down the list*/}
 					<ul
-						className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1 lg:max-h-145 "
+						className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1  "
 						onScroll={() => setOpen(null)}>
 						{filteredEmployees?.length > 0 ? (
 							filteredEmployeesBirthDayLessThanMont?.map((emp) => {
