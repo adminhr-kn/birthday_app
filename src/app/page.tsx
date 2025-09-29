@@ -9,7 +9,7 @@ export default async function Page() {
 	// );
 	// "https://birthday-app-chi-indol.vercel.app/api/employees"   ,
 	const apiRes = await fetch(
-		"https://birthday-app-chi-indol.vercel.app/api/employees",
+		"https://knemployee.vercel.app/api/employees",
 		{
 			cache: "no-store",
 		}

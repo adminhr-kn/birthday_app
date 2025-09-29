@@ -12,14 +12,14 @@ export default async function Fetching() {
 	// EVERYWHERE IT HAS TO BE AN HTTPS! IF IT WILL BE AN HTTP IT WILL WORK FOR SOME TIME BUT THEN THE WHOLE APP WILL CRASH
 
 	const fetched_data = await fetch(
-		"https://birthday-app-chi-indol.vercel.app/contracts.json",
+		"https://knemployee.vercel.app/contracts.json",
 		{
 			cache: "no-store",
 		}
 	);
 
 	const apiRes = await fetch(
-		"https://birthday-app-chi-indol.vercel.app/api/employees",
+		"https://knemployee.vercel.app/api/employees",
 		{
 			cache: "no-store",
 		}

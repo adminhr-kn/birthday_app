@@ -127,9 +127,9 @@ export default function Contracts_Page({
 		value: loc,
 		label: loc,
 	}));
-	console.log(filteredLocations);
+	//console.log(filteredLocations);
 
-	console.log(filters);
+	//console.log(filters);
 
 	const [filteredConts, setFilteredConts] = useState(contracts);
 
@@ -158,7 +158,7 @@ export default function Contracts_Page({
 				!x.email.includes("resign.") &&
 				(x.resign_date === "" || x.resign_date === null)
 		);
-		console.log("Filtered Contracts:", result);
+		//console.log("Filtered Contracts:", result);
 		// if smth changes we change the filteredConts, and sort it by the durationDaysLeft
 		setFilteredConts(
 			[...result].sort((a, b) => {
@@ -210,7 +210,7 @@ export default function Contracts_Page({
 									const temp = filters;
 									temp["name"] = value;
 									setFilter({ ...temp });
-									console.log(filters);
+									//console.log(filters);
 								}}
 							/>
 						</div>
@@ -346,7 +346,7 @@ export default function Contracts_Page({
 												? selected
 												: { to: new Date(), from: new Date() };
 											setFilter({ ...temp });
-											console.log(filters);
+											//console.log(filters);
 
 											// close popover when dates are not the same, works only first time because of the reference value, when we change and click again we can select the same date
 											if (
@@ -386,12 +386,12 @@ export default function Contracts_Page({
 									const valuetaken = e.target.value;
 									if (valuetaken === "" || Number(valuetaken) >= 0) {
 										setDuration(valuetaken);
-										console.log(valuetaken);
+										//console.log(valuetaken);
 
 										const temp = filters;
 										temp["monthDuration"] = Number(valuetaken);
 										setFilter({ ...temp });
-										console.log(filters);
+										//console.log(filters);
 									}
 								}}
 							/>
@@ -508,7 +508,7 @@ export default function Contracts_Page({
 									: null;
 							});
 
-							console.log(differenceInDays);
+							//console.log(differenceInDays);
 
 							try {
 								const res = await fetch("/api/messages", {
@@ -522,7 +522,7 @@ export default function Contracts_Page({
 								const data = await res.json();
 
 								
-								console.log("API response:", data);
+								//console.log("API response:", data);
 								if (res.ok) {
 									console.log("✅ Email sent!");
 								} else {
@@ -601,8 +601,10 @@ export default function Contracts_Page({
 											<TableRow key={contract.user_id}>
 												<TableCell>
 													{contract.job_level !== "Staff" &&
+
 													contract.job_level !== "Non Staff" &&
 													contract.job_level !== "Intern" ? (
+
 														<Badge variant="destructive">
 															{contract.first_name}
 														</Badge>

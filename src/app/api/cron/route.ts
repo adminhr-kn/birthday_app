@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
 	// getting all the info about employees from the api
 	const apiRes = await fetch(
-
-		"https://birthday-app-chi-indol.vercel.app/api/employees",
+		"https://knemployee.vercel.app/api/employees",
 
 		{
 			cache: "no-store",
@@ -49,7 +48,7 @@ export async function GET() {
 			if (differenceInDays) {
 				const res = await fetch(
 
-					"https://birthday-app-chi-indol.vercel.app/api/messages",
+					"https://knemployee.vercel.app/api/messages",
 
 					{
 						method: "POST",
