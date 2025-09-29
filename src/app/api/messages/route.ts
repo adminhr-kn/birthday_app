@@ -4,7 +4,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
-// taking the data from cron/route.ts
+// taking the data from api/cron/route.ts
 export async function POST(req: Request) {
 	try {
 		// taking data from front request
@@ -18,7 +18,9 @@ export async function POST(req: Request) {
 		// sending email to user
 		const { data, error } = await resend.emails.send({
 			from: "onboarding@resend.dev",
+
 			to: ["admin.hr@kodingnext.com"],
+
 			subject: "Hello world",
 			html: `
 				<h1>Contracts expiring soon</h1>

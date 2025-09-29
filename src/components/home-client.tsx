@@ -77,12 +77,15 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 
 	// newData is API from Talenta, fetched
 	useEffect(() => {
-	
+
+		//console.log("initialEmployees", newData);
+
 		// make new set from job_levels and console log
 		const job_levels = new Set(
 			newData.map((emp) => emp.job_level.toLowerCase())
 		);
-	
+		//console.log("job_levels", job_levels);
+
 	}, [newData]);
 
 	// destructuring a setTheme from useTheme hook
@@ -213,7 +216,7 @@ export default function HomePage({ newData }: { newData: Employee[] }) {
 
 					{/* // closing when we scrolled down the list*/}
 					<ul
-						className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1 lg:max-h-145 "
+						className="space-y-3  overflow-y-auto pr-2 flex flex-col flex-1  "
 						onScroll={() => setOpen(null)}>
 						{filteredEmployees?.length > 0 ? (
 							filteredEmployeesBirthDayLessThanMont?.map((emp) => {

@@ -88,7 +88,6 @@ export default function Contracts_Page({
 }: {
 	contracts: Contract[];
 }) {
-	
 	const [contract, setContract] = useState<Contract[]>(contracts);
 	const [search, setSearch] = useState("");
 	const [months, setMonths] = useState(1);
@@ -198,9 +197,7 @@ export default function Contracts_Page({
 			<Card className="flex flex-col w-full lg:w-1/2 shadow-lg h-full min-w-0">
 				<CardHeader className="space-y-1">
 					<CardTitle>Birthday App</CardTitle>
-					<CardDescription>
-						Search for a contract with filters.
-					</CardDescription>
+					<CardDescription>Search for a contract with filters.</CardDescription>
 
 					<div className="flex items-center gap-2 flex-wrap">
 						<div className="flex flex-col gap-2">
@@ -402,9 +399,9 @@ export default function Contracts_Page({
 					</div>
 				</CardHeader>
 
-				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden">
+				<CardContent className="flex flex-col gap-4 min-w-0 min-h-0 overflow-hidden flex-1">
 					<ul
-						className=" flex flex-col space-y-3 max-h-96 overflow-y-auto pr-2  lg:max-h-145 "
+						className=" flex flex-col flex-1 space-y-3  overflow-y-auto pr-2  "
 						onScroll={() => setisOpen(null)}>
 						{filteredConts?.length > 0 ? (
 							filteredConts.map((contract) => {
@@ -604,7 +601,10 @@ export default function Contracts_Page({
 											<TableRow key={contract.user_id}>
 												<TableCell>
 													{contract.job_level !== "Staff" &&
-													contract.job_level !== "Non Staff" && contract.job_level !== "Intern" ? (
+
+													contract.job_level !== "Non Staff" &&
+													contract.job_level !== "Intern" ? (
+
 														<Badge variant="destructive">
 															{contract.first_name}
 														</Badge>
